@@ -1,0 +1,19 @@
+{
+  "name": "Foro RiesGIRD-ACC LAC 2026 — Agenda",
+  "short_name": "RiesGIRD-ACC LAC",
+  "description": "Cronograma en vivo del Foro Internacional 2026 de la Red RiesGIRD-ACC LAC",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F1EEE4",
+  "theme_color": "#1B3A53",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

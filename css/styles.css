@@ -1,0 +1,1156 @@
+/* ==========================================================================
+   RiesGIRD-ACC LAC — Design tokens (ver theme.json)
+   ========================================================================== */
+
+:root {
+  --bg: #F1EEE4;
+  --surface: #FFFFFF;
+  --text-primary: #23282B;
+  --text-secondary: #5B6165;
+  --primary: #1B3A53;
+  --primary-light: #2C5578;
+  --alert-active: #E2711D;
+
+  --track-1: #1B8F7D;
+  --track-2: #D69A2A;
+  --track-3: #6B8F42;
+  --track-4: #8C3644;
+  --track-5: #5C4B7A;
+
+  /* Variantes más oscuras de cada track, mismo tono — para usar como fondo
+     sólido con texto blanco encima sin caer en texto negro puro ni en bajo
+     contraste (regla del theme: "blanco o el tono más oscuro de la familia"). */
+  --track-1-fill: #146B5D;
+  --track-2-fill: #8A6212;
+  --track-3-fill: #4F6B2F;
+  --track-4-fill: #8C3644;
+  --track-5-fill: #5C4B7A;
+
+  --card-radius: 16px;
+  --avatar-radius: 50%;
+  --button-radius: 12px;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-card-lg: 0 4px 16px rgba(0, 0, 0, 0.10);
+
+  --font-display: "Fraunces", serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --tab-bar-height: 64px;
+  --header-height: 96px;
+}
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  padding-bottom: calc(var(--tab-bar-height) + 24px);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 { margin: 0; font-weight: 600; }
+
+p { margin: 0; }
+
+a { color: inherit; text-decoration: none; }
+
+ul { list-style: none; margin: 0; padding: 0; }
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+img { max-width: 100%; display: block; }
+
+.mono { font-family: var(--font-mono); }
+
+/* Textura topográfica reutilizable — motivo de marca (curvas de nivel), sutil,
+   nunca decorativa a un nivel que compita con el contenido. */
+.topo-decor {
+  content: "";
+  position: absolute;
+  right: -18px;
+  bottom: -26px;
+  width: 190px;
+  height: 110px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 120'%3E%3Cpath d='M0 55 Q 25 15 50 55 T 100 55 T 150 55 T 200 55' stroke='white' stroke-width='2' fill='none'/%3E%3Cpath d='M0 85 Q 25 45 50 85 T 100 85 T 150 85 T 200 85' stroke='white' stroke-width='2' fill='none'/%3E%3Cpath d='M0 110 Q 25 75 50 110 T 100 110 T 150 110 T 200 110' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  opacity: 0.14;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Layout shell
+   ========================================================================== */
+
+.app-shell {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 12px 16px 0;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 23px;
+  color: var(--primary);
+  margin: 18px 0 14px;
+}
+
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 24px 0 10px;
+}
+
+/* ==========================================================================
+   Header — versión completa (Inicio / Agenda, pantallas ancla)
+   ========================================================================== */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  padding-top: 12px;
+  padding-bottom: 8px;
+}
+
+.header-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--primary);
+  color: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card-lg);
+  padding: 16px 18px;
+}
+
+.header-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: inherit;
+}
+
+.header-back-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.header-back-icon svg { width: 100%; height: 100%; }
+
+.header-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-subtitle {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
+}
+
+.home-hero-card { padding: 26px 18px; }
+
+.home-hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-hero-logo {
+  height: 52px;
+  width: auto;
+  max-width: 100%;
+}
+
+.header-brand-logo {
+  height: 34px;
+  width: auto;
+  display: block;
+  margin-bottom: 3px;
+}
+
+/* El header ligero (Salas/Ponentes/Guía/Info) va sobre el fondo crema claro,
+   no sobre la tarjeta azul — el logo es blanco, así que necesita una placa
+   oscura detrás para tener contraste ahí. */
+.header-slim-logo-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--primary);
+  border-radius: 8px;
+  padding: 7px 11px;
+  flex-shrink: 0;
+}
+
+.header-slim-logo-img {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+
+.day-pill {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.14);
+  padding: 4px 10px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.day-tabs {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 6px;
+  margin-top: 14px;
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: var(--button-radius);
+  padding: 4px;
+}
+
+.day-tabs-card {
+  background: var(--primary);
+  border-radius: var(--card-radius);
+  padding: 8px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 4px;
+}
+
+.day-tabs-card .day-tabs { margin-top: 0; }
+
+.day-tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 4px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.day-tab.active {
+  background: #fff;
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   Header — versión ligera (Salas / Ponentes / Tracks / Info)
+   Evita repetir el bloque azul pesado en pantallas secundarias.
+   ========================================================================== */
+
+.app-header--slim {
+  padding-top: 14px;
+  padding-bottom: 0;
+}
+
+.header-slim {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 2px;
+  color: var(--text-secondary);
+}
+
+.header-slim .header-back-icon {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   Bloque AHORA / SIGUIENTE
+   "Ahora" se invierte a color sólido (el único elemento con esa fuerza en la
+   pantalla); "Siguiente" se queda deliberadamente discreto — el contraste
+   entre ambos ES la jerarquía.
+   ========================================================================== */
+
+.now-block { margin-top: 16px; }
+
+.now-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--primary);
+  color: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card-lg);
+  padding: 16px 18px;
+}
+
+.now-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--alert-active);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+  animation: pulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 2px rgba(226, 113, 29, 0.55); }
+  70% { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 10px rgba(226, 113, 29, 0); }
+  100% { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 0 rgba(226, 113, 29, 0); }
+}
+
+.now-card .session-title,
+.now-card .session-meta,
+.now-card .session-speakers {
+  position: relative;
+  z-index: 1;
+}
+
+.now-card .session-title { color: #fff; }
+.now-card .session-meta { color: rgba(255, 255, 255, 0.8); }
+.now-card .session-meta .mono { color: #fff; }
+.now-card .session-speakers { color: rgba(255, 255, 255, 0.75); }
+
+.session-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.session-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.session-meta .mono { color: var(--text-primary); font-weight: 500; }
+
+.next-card {
+  margin-top: 10px;
+  background: transparent;
+  border: 1px dashed rgba(91, 97, 101, 0.35);
+  border-radius: var(--card-radius);
+  padding: 14px 16px;
+}
+
+.next-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.empty-now {
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  padding: 20px 16px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   Timeline vertical
+   ========================================================================== */
+
+.timeline {
+  position: relative;
+  padding-left: 6px;
+  margin-top: 8px;
+}
+
+.timeline-item {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.timeline-time {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding-top: 14px;
+  text-align: right;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 40px;
+  top: 18px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--text-secondary);
+  z-index: 2;
+}
+
+.timeline-item.is-now .timeline-dot {
+  border-color: var(--alert-active);
+  background: var(--alert-active);
+}
+
+/* Tarjetas de sesión: bloque de color sólido (identidad del track a toda el
+   área), no una tarjeta blanca con una franja de color al costado. */
+.session-card {
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  padding: 14px 16px;
+  min-height: 44px;
+  color: #fff;
+}
+
+.session-card.is-now { box-shadow: var(--shadow-card-lg); }
+
+.session-card[data-track="primary"] { background: var(--primary); }
+.session-card[data-track="track-1"] { background: var(--track-1-fill); }
+.session-card[data-track="track-2"] { background: var(--track-2-fill); }
+.session-card[data-track="track-3"] { background: var(--track-3-fill); }
+.session-card[data-track="track-4"] { background: var(--track-4-fill); }
+.session-card[data-track="track-5"] { background: var(--track-5-fill); }
+
+.session-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.session-card .session-title { font-size: 14.5px; margin-bottom: 4px; color: #fff; }
+.session-card .session-meta { color: rgba(255, 255, 255, 0.8); }
+.session-card .session-meta .mono { color: #fff; }
+.session-card .session-speakers { color: rgba(255, 255, 255, 0.75); }
+
+/* Tag/etiqueta cuando la tarjeta contenedora YA es de color sólido: chip
+   translúcido, para no apilar color sobre color. */
+.session-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 6px;
+}
+
+/* Variante para cuando el tag vive sobre fondo claro (ej. tarjeta "Siguiente") */
+.session-tag.on-light { color: #fff; }
+.session-tag.on-light.track-1 { background: var(--track-1-fill); }
+.session-tag.on-light.track-2 { background: var(--track-2-fill); }
+.session-tag.on-light.track-3 { background: var(--track-3-fill); }
+.session-tag.on-light.track-4 { background: var(--track-4-fill); }
+.session-tag.on-light.track-5 { background: var(--track-5-fill); }
+.session-tag.on-light.ceremonia,
+.session-tag.on-light.conferencia,
+.session-tag.on-light.panel { background: var(--primary); }
+.session-tag.on-light.dialogo { background: var(--text-secondary); }
+
+.session-speakers {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Menciones de "Ponente pendiente (Institución)" dentro de la lista de
+   ponentes de una sesión — visualmente distintas de los nombres confirmados. */
+.pendiente-inline { font-style: italic; opacity: 0.85; }
+
+/* Bloques informativos ligeros del cronograma: registro, recesos, almuerzo.
+   No son "sesiones" con ponentes — se muestran más discretos que una
+   session-card, sin botón de favorito. */
+.timeline-break {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--card-radius);
+  background: rgba(27, 58, 83, 0.06);
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  min-height: 44px;
+}
+
+.timeline-break svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.timeline-break-time {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.badge-pending {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: rgba(91, 97, 101, 0.15);
+  color: var(--text-secondary);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Favorite button
+   ========================================================================== */
+
+.fav-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 44px;
+  min-height: 44px;
+  margin: -6px -6px -6px 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.fav-btn svg { width: 20px; height: 20px; }
+
+.fav-btn.is-fav { color: var(--alert-active); }
+.fav-btn.is-fav svg { fill: var(--alert-active); }
+
+/* Sobre tarjetas claras (ej. tarjeta "Siguiente", fondo transparente/claro) */
+.next-card .fav-btn { color: var(--text-secondary); }
+.next-card .fav-btn.is-fav { color: var(--alert-active); }
+
+/* ==========================================================================
+   Ponentes grid
+   ========================================================================== */
+
+.speakers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.speaker-card {
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  padding: 14px 12px;
+  text-align: center;
+}
+
+.speaker-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.speaker-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: 3px;
+}
+
+.speaker-role {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.speaker-org {
+  font-size: 11px;
+  color: var(--primary);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.speaker-topic {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--bg);
+}
+
+/* ==========================================================================
+   Salas
+   ========================================================================== */
+
+.sala-card {
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.sala-card.is-now {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow-card-lg);
+}
+
+.sala-card.is-now .sala-icon { background: rgba(255, 255, 255, 0.16); color: #fff; }
+.sala-card.is-now .sala-meta { color: rgba(255, 255, 255, 0.8); }
+
+.sala-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.sala-name { font-size: 14.5px; font-weight: 600; margin-bottom: 2px; }
+.sala-meta { font-size: 12px; color: var(--text-secondary); }
+
+/* ==========================================================================
+   Bottom tab bar
+   ========================================================================== */
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background: var(--surface);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+}
+
+.tab-bar-inner {
+  max-width: 520px;
+  width: 100%;
+  display: flex;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 2px 10px;
+  min-height: var(--tab-bar-height);
+  color: var(--text-secondary);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.tab-item svg { width: 22px; height: 22px; }
+
+.tab-item.active { color: var(--primary); }
+
+/* ==========================================================================
+   Inicio — header hero + "hoja" superpuesta con el contenido
+   ========================================================================== */
+
+.home-sheet {
+  position: relative;
+  margin-top: -22px;
+  background: var(--surface);
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
+  padding: 22px 4px 4px;
+}
+
+.home-intro { margin: 0 0 4px; padding: 0 12px; }
+
+.home-intro-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.home-intro-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.home-ahora-teaser {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: var(--card-radius);
+  padding: 14px 16px;
+  margin: 14px 12px 0;
+}
+
+.home-ahora-teaser.is-now {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow-card-lg);
+}
+
+.home-ahora-teaser:not(.is-now) {
+  background: var(--surface);
+  border: 1px dashed rgba(91, 97, 101, 0.35);
+}
+
+.home-ahora-teaser-body { min-width: 0; flex: 1; }
+
+.home-ahora-teaser-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-ahora-teaser.is-now .home-ahora-teaser-title { color: #fff; }
+
+.home-ahora-teaser-meta {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.home-ahora-teaser.is-now .home-ahora-teaser-meta { color: rgba(255, 255, 255, 0.75); }
+
+.home-ahora-teaser-arrow {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.home-ahora-teaser.is-now .home-ahora-teaser-arrow { color: rgba(255, 255, 255, 0.75); }
+
+.home-ahora-teaser-arrow svg { width: 18px; height: 18px; }
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 12px 12px;
+}
+
+.home-card {
+  grid-column: span 1;
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 128px;
+}
+
+.home-card.featured {
+  grid-column: span 2;
+  flex-direction: row;
+  align-items: center;
+  min-height: 100px;
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow-card-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-card.featured .home-card-icon { background: rgba(255, 255, 255, 0.16); color: #fff; }
+.home-card.featured .home-card-title { color: #fff; }
+.home-card.featured .home-card-desc { color: rgba(255, 255, 255, 0.8); }
+
+.home-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.home-card-icon svg { width: 22px; height: 22px; }
+
+.home-card-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  position: relative;
+  z-index: 1;
+}
+
+.home-card-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.35;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Guía del visitante (Hoteles / Transporte / Emergencias)
+   ========================================================================== */
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.filter-chip {
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+}
+
+.filter-chip.active {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: none;
+}
+
+.hotel-card {
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.hotel-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.hotel-name { font-size: 14.5px; font-weight: 700; line-height: 1.3; }
+
+.hotel-chain {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.hotel-stars {
+  font-size: 11px;
+  color: var(--track-2-fill);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  margin-top: 3px;
+}
+
+.hotel-district-chip {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--bg);
+  color: var(--primary);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.hotel-detail-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.hotel-detail-row svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--text-secondary);
+}
+
+.hotel-detail-row a { color: var(--primary); font-weight: 600; word-break: break-all; }
+
+.hotel-sales-note {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--bg);
+  line-height: 1.4;
+}
+
+.hotel-sales-note strong { color: var(--text-primary); }
+
+.transport-card {
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.transport-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.transport-name { font-size: 14.5px; font-weight: 700; }
+
+.taxi-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--track-3-fill);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.transport-desc {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.taxi-store-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.taxi-store-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--bg);
+  border-radius: var(--button-radius);
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  min-height: 44px;
+}
+
+.taxi-store-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.emergency-card {
+  background: var(--primary);
+  color: #fff;
+  border-radius: var(--card-radius);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-card-lg);
+}
+
+.emergency-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.emergency-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.emergency-icon svg { width: 22px; height: 22px; }
+
+.emergency-name { font-size: 15px; font-weight: 700; }
+
+.emergency-desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.emergency-number-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: var(--button-radius);
+  padding: 12px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  min-height: 48px;
+}
+
+.emergency-number-link svg { width: 20px; height: 20px; }
+
+/* ==========================================================================
+   Info page
+   ========================================================================== */
+
+.info-card {
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.info-card h3 {
+  font-size: 14px;
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+
+.info-card p {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.info-card p a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.logos-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.logo-chip {
+  background: var(--bg);
+  border-radius: var(--button-radius);
+  padding: 8px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   Utility
+   ========================================================================== */
+
+.empty-state {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  padding: 32px 16px;
+}
+
+@media (min-width: 600px) {
+  .app-shell { max-width: 560px; }
+}

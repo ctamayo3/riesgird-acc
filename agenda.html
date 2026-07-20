@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Agenda — Foro RiesGIRD-ACC LAC 2026</title>
+  <meta name="description" content="Cronograma en vivo del Foro Internacional 2026 de la Red RiesGIRD-ACC LAC — Gestión Integral del Riesgo de Desastres y Adaptación al Cambio Climático" />
+  <meta name="theme-color" content="#1B3A53" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="agenda">
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="header-card">
+        <span class="topo-decor"></span>
+        <div class="header-top">
+          <a class="header-brand" href="index.html">
+            <span class="header-back-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span>
+            <div>
+              <img class="header-brand-logo" src="assets/logo.png" alt="Foro RiesGIRD-ACC LAC" />
+              <div class="header-subtitle">Universidad ESAN · 2–3 sept 2026</div>
+            </div>
+          </a>
+          <div class="day-pill" id="day-pill">Día 1 / 2</div>
+        </div>
+        <div class="day-tabs" id="day-tabs-mount"></div>
+      </div>
+    </header>
+
+    <main>
+      <div class="now-block" id="now-next-mount"></div>
+
+      <h2 class="section-label">Cronograma</h2>
+      <div id="timeline-mount"></div>
+    </main>
+  </div>
+
+  <div id="tab-bar-mount"></div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/now-next.js"></script>
+  <script src="js/agenda.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+</html>

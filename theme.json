@@ -1,0 +1,35 @@
+{
+  "theme_name": "riesgird_congreso_tema_hibrido",
+  "color": {
+    "background": "#F1EEE4",
+    "surface_card": "#FFFFFF",
+    "text_primary": "#23282B",
+    "text_secondary": "#5B6165",
+    "primary_institucional": "#1B3A53",
+    "alerta_activa": "#E2711D",
+    "tracks": {
+      "track_1_riesgo_hidrico": "#1B8F7D",
+      "track_2_politicas_gestion": "#D69A2A",
+      "track_3_ecosistemas_adaptacion": "#6B8F42",
+      "track_4_infraestructura_ingenieria": "#8C3644"
+    }
+  },
+  "shape": {
+    "card_radius": "16px",
+    "badge_avatar_radius": "50%",
+    "button_radius": "12px",
+    "border": "ninguno en cards de color — se diferencian por fondo sólido, no por borde"
+  },
+  "typography": {
+    "display": "Fraunces (solo título del evento, encabezados de ceremonia)",
+    "body_ui": "IBM Plex Sans (navegación, texto general)",
+    "data_mono": "IBM Plex Mono (horas, código de sala, día 1/2/3)"
+  },
+  "component_mapping": {
+    "header_flotante": "card con logo del congreso + día activo + badge de track si aplica",
+    "badge_circular_agenda": "ícono + color de track para cada fila del cronograma",
+    "progress_ring_tracks": "en la sección Tracks, cada track muestra un anillo con charlas ya dictadas / total del día",
+    "fab_favoritos": "botón circular de acento institucional para marcar charla de interés (localStorage)"
+  },
+  "restraint_note": "el naranja de alerta activa se usa SOLO en el bloque 'ahora' del cronograma, nunca como color decorativo repetido"
+}

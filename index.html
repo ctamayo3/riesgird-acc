@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Inicio — Foro RiesGIRD-ACC LAC 2026</title>
+  <meta name="description" content="Orientación del asistente durante el Foro Internacional 2026 de la Red RiesGIRD-ACC LAC" />
+  <meta name="theme-color" content="#1B3A53" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="inicio">
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="header-card home-hero-card">
+        <span class="topo-decor"></span>
+        <div class="home-hero-content">
+          <img class="home-hero-logo" src="assets/logo.png" alt="Foro Internacional RiesGIRD-ACC LAC" />
+          <div class="header-subtitle">Universidad ESAN · 2–3 sept 2026</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="home-sheet">
+      <div class="home-intro">
+        <div class="home-intro-title">Bienvenido(a)</div>
+        <div class="home-intro-sub">Todo lo que necesitas para orientarte durante los 2 días del Foro.</div>
+      </div>
+
+      <div id="home-ahora-mount"></div>
+
+      <div class="home-grid">
+        <a class="home-card featured" href="agenda.html">
+          <div class="home-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+          </div>
+          <div>
+            <div class="home-card-title">Agenda</div>
+            <div class="home-card-desc">Cronograma en vivo, qué está pasando ahora y qué sigue.</div>
+          </div>
+        </a>
+
+        <a class="home-card" href="salas.html">
+          <div class="home-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>
+          </div>
+          <div class="home-card-title">Salas</div>
+          <div class="home-card-desc">Ubicación de auditorios y salones.</div>
+        </a>
+
+        <a class="home-card" href="ponentes.html">
+          <div class="home-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          </div>
+          <div class="home-card-title">Ponentes</div>
+          <div class="home-card-desc">Quién habla y sobre qué tema.</div>
+        </a>
+
+        <a class="home-card" href="guia.html">
+          <div class="home-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="16 8 14 14 8 16 10 10 16 8"/></svg>
+          </div>
+          <div class="home-card-title">Guía</div>
+          <div class="home-card-desc">Hoteles, transporte y emergencias en Lima.</div>
+        </a>
+
+        <a class="home-card" href="info.html">
+          <div class="home-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/></svg>
+          </div>
+          <div class="home-card-title">Info</div>
+          <div class="home-card-desc">Sede, fechas y organizadores.</div>
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <div id="tab-bar-mount"></div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/now-next.js"></script>
+  <script src="js/home.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+</html>
