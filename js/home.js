@@ -46,4 +46,41 @@ async function renderAhoraTeaser() {
   `;
 }
 
+function renderCountdown() {
+  const mount = document.getElementById("home-countdown-mount");
+  if (!mount) return;
+
+  const startDay = new Date(2026, 8, 2);
+  const endDay = new Date(2026, 8, 3);
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  if (today > endDay) {
+    mount.innerHTML = "";
+    return;
+  }
+
+  if (today.getTime() === startDay.getTime()) {
+    mount.innerHTML = `<div class="home-countdown home-countdown--live"><span class="home-countdown-label">¡Hoy comienza el Foro! · Día 1</span></div>`;
+    return;
+  }
+
+  if (today.getTime() === endDay.getTime()) {
+    mount.innerHTML = `<div class="home-countdown home-countdown--live"><span class="home-countdown-label">El Foro continúa hoy · Día 2</span></div>`;
+    return;
+  }
+
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const diffDays = Math.round((startDay - today) / msPerDay);
+  const label = diffDays === 1 ? "día para el Foro" : "días para el Foro";
+
+  mount.innerHTML = `
+    <div class="home-countdown">
+      <span class="home-countdown-num">${diffDays}</span>
+      <span class="home-countdown-label">${label}</span>
+    </div>
+  `;
+}
+
 document.addEventListener("DOMContentLoaded", renderAhoraTeaser);
+document.addEventListener("DOMContentLoaded", renderCountdown);

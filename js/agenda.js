@@ -68,6 +68,22 @@ function trackColorKey(sesion) {
   return "primary";
 }
 
+function isWaterTrack(sesion) {
+  return trackColorKey(sesion) === "track-1";
+}
+
+function waterRippleHtml() {
+  return `
+    <span class="water-ripple" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle class="ripple-1" cx="12" cy="12" r="2"/>
+        <circle class="ripple-2" cx="12" cy="12" r="2"/>
+        <circle class="ripple-3" cx="12" cy="12" r="2"/>
+      </svg>
+    </span>
+  `;
+}
+
 function favIconHtml(active) {
   return active
     ? '<svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.5 8.1 2.3 4.5 6 4c2.2-.3 4 .8 6 3 2-2.2 3.8-3.3 6-3 3.7.5 5.5 4.1 4 7.7C19.5 16.4 12 21 12 21z"/></svg>'
@@ -76,6 +92,15 @@ function favIconHtml(active) {
 
 function breakIconSvg() {
   return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>';
+}
+
+function emptyStateHtml(cls, message) {
+  return `
+    <div class="${cls}">
+      <span class="empty-lupa" aria-hidden="true"><img src="assets/logo-icono-lupa-clean.png" alt="" /></span>
+      <div>${message}</div>
+    </div>
+  `;
 }
 
 function pendingBadgeHtml(sesion) {
@@ -113,6 +138,7 @@ function nowNextCardHtml(sesion, opts) {
   const fav = isFavorite(sesion.id);
   return `
     <div class="${isNow ? "now-card" : "next-card"}" data-sesion-id="${sesion.id}">
+      ${isWaterTrack(sesion) ? waterRippleHtml() : ""}
       ${
         isNow
           ? `<div class="now-badge"><span class="pulse-dot"></span> Ahora</div>`
@@ -143,13 +169,13 @@ function renderNowNext() {
   const { now, next } = findNowAndNext(sesionesDelDia, nowHHMM);
 
   if (now.length === 0 && next.length === 0) {
-    mount.innerHTML = `<div class="empty-now">No hay sesiones programadas en este momento para el Día ${state.selectedDay}.</div>`;
+    mount.innerHTML = emptyStateHtml("empty-now", `No hay sesiones programadas en este momento para el Día ${state.selectedDay}.`);
     return;
   }
 
   const nowHtml = now.length
     ? now.map((s) => nowNextCardHtml(s, { isNow: true })).join("")
-    : `<div class="empty-now">Ninguna sesión en curso ahora mismo.</div>`;
+    : emptyStateHtml("empty-now", "Ninguna sesión en curso ahora mismo.");
 
   const nextHtml = next.map((s) => nowNextCardHtml(s, { isNow: false })).join("");
 
@@ -163,7 +189,7 @@ function renderTimeline() {
     .sort((a, b) => a.hora_inicio.localeCompare(b.hora_inicio));
 
   if (sesionesDelDia.length === 0) {
-    mount.innerHTML = `<div class="empty-state">Aún no hay sesiones cargadas para este día.</div>`;
+    mount.innerHTML = emptyStateHtml("empty-state", "Aún no hay sesiones cargadas para este día.");
     return;
   }
 
@@ -190,6 +216,7 @@ function renderTimeline() {
           <div class="timeline-time mono">${s.hora_inicio}</div>
           <div class="timeline-dot"></div>
           <div class="session-card${active ? " is-now" : ""}" data-track="${trackKey}" data-sesion-id="${s.id}">
+            ${isWaterTrack(s) ? waterRippleHtml() : ""}
             <div class="session-card-top">
               <div>
                 ${trackTagHtml(s, false)}
@@ -212,6 +239,74 @@ function renderTimeline() {
 
   mount.innerHTML = `<div class="timeline" id="timeline">${itemsHtml}</div>`;
   renderTopoConnector(document.getElementById("timeline"));
+  observeBlueprintCards(mount);
+}
+
+// Efecto "blueprint": el contorno de cada tarjeta de sesión se dibuja solo
+// cuando entra al viewport al hacer scroll, como si el plano se fuera
+// levantando a medida que avanzás por el cronograma.
+let blueprintObserver;
+
+function getBlueprintObserver() {
+  if (blueprintObserver !== undefined) return blueprintObserver;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    blueprintObserver = null;
+    return blueprintObserver;
+  }
+  blueprintObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        drawBlueprintBorder(entry.target);
+        blueprintObserver.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.2 }
+  );
+  return blueprintObserver;
+}
+
+function observeBlueprintCards(mount) {
+  const observer = getBlueprintObserver();
+  if (!observer) return;
+  mount.querySelectorAll(".session-card").forEach((card) => observer.observe(card));
+}
+
+function drawBlueprintBorder(card) {
+  const w = card.offsetWidth;
+  const h = card.offsetHeight;
+  if (!w || !h) return;
+
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.setAttribute("class", "blueprint-svg");
+  svg.setAttribute("width", String(w));
+  svg.setAttribute("height", String(h));
+  svg.style.position = "absolute";
+  svg.style.top = "0";
+  svg.style.left = "0";
+  svg.style.zIndex = "2";
+  svg.style.pointerEvents = "none";
+
+  const rectEl = document.createElementNS(svgNS, "rect");
+  rectEl.setAttribute("x", "1");
+  rectEl.setAttribute("y", "1");
+  rectEl.setAttribute("width", String(Math.max(w - 2, 0)));
+  rectEl.setAttribute("height", String(Math.max(h - 2, 0)));
+  rectEl.setAttribute("rx", "15");
+  rectEl.setAttribute("fill", "none");
+  rectEl.setAttribute("stroke", "rgba(255,255,255,0.85)");
+  rectEl.setAttribute("stroke-width", "1.5");
+  svg.appendChild(rectEl);
+  card.appendChild(svg);
+
+  const length = rectEl.getTotalLength();
+  rectEl.style.strokeDasharray = String(length);
+  rectEl.style.strokeDashoffset = String(length);
+  requestAnimationFrame(() => {
+    rectEl.style.transition = "stroke-dashoffset 0.9s ease-out";
+    rectEl.style.strokeDashoffset = "0";
+  });
 }
 
 function renderTopoConnector(timelineEl) {
@@ -246,6 +341,20 @@ function renderTopoConnector(timelineEl) {
   svg.style.pointerEvents = "none";
   svg.innerHTML = `<path d="${path}" fill="none" stroke="#D8D2C2" stroke-width="2" stroke-linecap="round"/>`;
   timelineEl.prepend(svg);
+
+  // Efecto "se dibuja solo": el trazo arranca oculto (dashoffset = su propio
+  // largo) y se revela hacia 0, como si el terreno se fuera levantando.
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) return;
+
+  const pathEl = svg.querySelector("path");
+  const length = pathEl.getTotalLength();
+  pathEl.style.strokeDasharray = String(length);
+  pathEl.style.strokeDashoffset = String(length);
+  requestAnimationFrame(() => {
+    pathEl.style.transition = `stroke-dashoffset ${Math.min(1.8, 0.5 + length / 700)}s ease-out`;
+    pathEl.style.strokeDashoffset = "0";
+  });
 }
 
 function renderDayTabs() {

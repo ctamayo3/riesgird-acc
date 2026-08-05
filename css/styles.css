@@ -96,6 +96,21 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
 }
 
+/* Ilustración real de curvas de nivel (generada), tileada. mix-blend-mode:
+   multiply hace que el blanco del JPG desaparezca contra el crema/blanco de
+   la app sin necesitar transparencia real — solo queda la tinta azul. */
+.page-topo-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("../assets/topo-pattern.jpg");
+  background-repeat: repeat;
+  background-size: 420px 234px;
+  mix-blend-mode: multiply;
+  opacity: 0.4;
+}
+
 /* ==========================================================================
    Layout shell
    ========================================================================== */
@@ -138,11 +153,12 @@ img { max-width: 100%; display: block; }
 .header-card {
   position: relative;
   overflow: hidden;
-  background: var(--primary);
-  color: #fff;
+  background: var(--surface);
+  color: var(--text-primary);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card-lg);
   padding: 16px 18px;
+  animation: fadeSlideUp 0.5s ease-out both;
 }
 
 .header-top {
@@ -162,12 +178,20 @@ img { max-width: 100%; display: block; }
   color: inherit;
 }
 
+/* Botón real (no un ícono flotando): placa circular clara + ícono de casa a
+   toda opacidad, para que se note que es tocable y no haya que adivinar. */
 .header-back-icon {
-  width: 16px;
-  height: 16px;
+  width: 34px;
+  height: 34px;
+  padding: 8px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--primary);
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.55);
+  transition: background 0.15s ease;
 }
+
+.header-brand:active .header-back-icon { background: var(--primary); color: #fff; }
 
 .header-back-icon svg { width: 100%; height: 100%; }
 
@@ -180,28 +204,49 @@ img { max-width: 100%; display: block; }
   white-space: nowrap;
 }
 
-.header-subtitle {
-  font-family: var(--font-body);
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 2px;
+/* Header sin day-pill (Salas/Ponentes/Guía/Info) — el logo va centrado en la
+   tarjeta, con el botón de volver a la izquierda y un espaciador invisible a
+   la derecha del mismo ancho, para que el centrado sea real y no "a ojo". */
+.header-top--center {
+  display: grid;
+  grid-template-columns: 34px 1fr 34px;
+  align-items: center;
+  gap: 8px;
 }
 
-.home-hero-card { padding: 26px 18px; }
+.header-back-btn { display: flex; color: inherit; }
 
-.home-hero-content {
-  position: relative;
-  z-index: 1;
+.header-logo-center {
+  display: flex;
+  justify-content: center;
+}
+
+.header-top-spacer { width: 34px; }
+
+.header-home-brand {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card-lg);
+  padding: 18px 12px;
+  text-align: center;
+  animation: fadeSlideUp 0.5s ease-out both;
 }
 
-.home-hero-logo {
-  height: 52px;
+.header-home-logo {
+  height: 64px;
   width: auto;
   max-width: 100%;
+}
+
+.header-home-meta {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
 .header-brand-logo {
@@ -211,30 +256,14 @@ img { max-width: 100%; display: block; }
   margin-bottom: 3px;
 }
 
-/* El header ligero (Salas/Ponentes/Guía/Info) va sobre el fondo crema claro,
-   no sobre la tarjeta azul — el logo es blanco, así que necesita una placa
-   oscura detrás para tener contraste ahí. */
-.header-slim-logo-badge {
-  display: inline-flex;
-  align-items: center;
-  background: var(--primary);
-  border-radius: 8px;
-  padding: 7px 11px;
-  flex-shrink: 0;
-}
-
-.header-slim-logo-img {
-  height: 22px;
-  width: auto;
-  display: block;
-}
-
 .day-pill {
   position: relative;
   z-index: 1;
   font-family: var(--font-mono);
   font-size: 12px;
-  background: rgba(255, 255, 255, 0.14);
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--bg);
   padding: 4px 10px;
   border-radius: 20px;
   flex-shrink: 0;
@@ -246,7 +275,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   gap: 6px;
   margin-top: 14px;
-  background: rgba(255, 255, 255, 0.10);
+  background: var(--bg);
   border-radius: var(--button-radius);
   padding: 4px;
 }
@@ -268,39 +297,17 @@ img { max-width: 100%; display: block; }
   border-radius: 9px;
   font-size: 13px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--text-secondary);
   min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .day-tab.active {
-  background: #fff;
-  color: var(--primary);
-}
-
-/* ==========================================================================
-   Header — versión ligera (Salas / Ponentes / Tracks / Info)
-   Evita repetir el bloque azul pesado en pantallas secundarias.
-   ========================================================================== */
-
-.app-header--slim {
-  padding-top: 14px;
-  padding-bottom: 0;
-}
-
-.header-slim {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 2px;
-  color: var(--text-secondary);
-}
-
-.header-slim .header-back-icon {
-  color: var(--text-secondary);
-  opacity: 0.7;
+  background: var(--primary);
+  color: #fff;
 }
 
 /* ==========================================================================
@@ -352,6 +359,21 @@ img { max-width: 100%; display: block; }
   100% { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 0 rgba(226, 113, 29, 0); }
 }
 
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-dot,
+  .header-home-brand,
+  .header-card,
+  .home-sheet,
+  .home-grid .home-card {
+    animation: none !important;
+  }
+}
+
 .now-card .session-title,
 .now-card .session-meta,
 .now-card .session-speakers {
@@ -382,6 +404,7 @@ img { max-width: 100%; display: block; }
 .session-meta .mono { color: var(--text-primary); font-weight: 500; }
 
 .next-card {
+  position: relative;
   margin-top: 10px;
   background: transparent;
   border: 1px dashed rgba(91, 97, 101, 0.35);
@@ -408,6 +431,30 @@ img { max-width: 100%; display: block; }
   font-size: 14px;
 }
 
+/* Lupa+reloj del logo, con un balanceo suave de "escaneo" — reemplaza el
+   texto plano de los estados vacíos por algo con un poco más de carácter. */
+.empty-lupa {
+  display: block;
+  width: 46px;
+  margin: 0 auto 10px;
+}
+
+.empty-lupa img {
+  width: 100%;
+  display: block;
+  animation: lupaScan 3s ease-in-out infinite;
+  transform-origin: 68% 32%;
+}
+
+@keyframes lupaScan {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(7deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .empty-lupa img { animation: none; }
+}
+
 /* ==========================================================================
    Timeline vertical
    ========================================================================== */
@@ -432,12 +479,13 @@ img { max-width: 100%; display: block; }
   font-size: 12px;
   color: var(--text-secondary);
   padding-top: 14px;
+  padding-right: 6px;
   text-align: right;
 }
 
 .timeline-dot {
   position: absolute;
-  left: 40px;
+  left: 47px;
   top: 18px;
   width: 12px;
   height: 12px;
@@ -455,11 +503,44 @@ img { max-width: 100%; display: block; }
 /* Tarjetas de sesión: bloque de color sólido (identidad del track a toda el
    área), no una tarjeta blanca con una franja de color al costado. */
 .session-card {
+  position: relative;
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card);
   padding: 14px 16px;
   min-height: 44px;
   color: #fff;
+}
+
+/* Ondas de agua — acento temático solo en sesiones del track hídrico (A),
+   nunca decorativo en otro lado. Tres círculos que se expanden y se
+   desvanecen en cascada, como una gota cayendo. */
+.water-ripple {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  width: 22px;
+  height: 22px;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+
+.next-card .water-ripple { color: rgba(27, 143, 125, 0.55); }
+
+.water-ripple circle {
+  transform-origin: 12px 12px;
+  animation: rippleExpand 2.4s ease-out infinite;
+}
+
+.water-ripple .ripple-2 { animation-delay: 0.8s; }
+.water-ripple .ripple-3 { animation-delay: 1.6s; }
+
+@keyframes rippleExpand {
+  0% { r: 2; opacity: 0.9; }
+  100% { r: 11; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .water-ripple circle { animation: none; opacity: 0.5; }
 }
 
 .session-card.is-now { box-shadow: var(--shadow-card-lg); }
@@ -579,6 +660,9 @@ img { max-width: 100%; display: block; }
 }
 
 .fav-btn svg { width: 20px; height: 20px; }
+
+.fav-btn { transition: transform 0.15s ease; }
+.fav-btn:active { transform: scale(0.8); }
 
 .fav-btn.is-fav { color: var(--alert-active); }
 .fav-btn.is-fav svg { fill: var(--alert-active); }
@@ -736,14 +820,69 @@ img { max-width: 100%; display: block; }
 
 .home-sheet {
   position: relative;
-  margin-top: -22px;
+  margin-top: 12px;
   background: var(--surface);
-  border-radius: 22px 22px 0 0;
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
   box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
   padding: 22px 4px 4px;
+  animation: fadeSlideUp 0.5s ease-out 0.08s both;
 }
 
-.home-intro { margin: 0 0 4px; padding: 0 12px; }
+.home-intro { position: relative; margin: 0 0 4px; padding: 0 12px; }
+
+/* Silueta de Lima + Andes (ilustración generada), detrás del logo. Alto por
+   aspect-ratio real de la imagen (no un alto fijo con "cover") para que se
+   vea el horizonte completo, no solo una tira recortada del borde superior. */
+.home-hero-skyline {
+  aspect-ratio: 1024 / 338;
+  margin-bottom: -28px;
+  background-image: url("../assets/skyline-lima-andes.jpg");
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: 100% auto;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.home-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border-radius: 20px;
+  padding: 5px 14px 5px 5px;
+  margin: 10px 12px 0;
+}
+
+.home-countdown-num {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--surface);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-card);
+}
+
+.home-countdown-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.home-countdown--live {
+  background: var(--primary);
+  padding: 7px 16px;
+}
+
+.home-countdown--live .home-countdown-label { color: #fff; }
 
 .home-intro-title {
   font-family: var(--font-display);
@@ -824,7 +963,21 @@ img { max-width: 100%; display: block; }
   flex-direction: column;
   gap: 10px;
   min-height: 128px;
+  animation: fadeSlideUp 0.45s ease-out both;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+
+.home-card:active { transform: scale(0.97); }
+
+@media (hover: hover) {
+  .home-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-card-lg); }
+}
+
+.home-grid .home-card:nth-child(1) { animation-delay: 0.05s; }
+.home-grid .home-card:nth-child(2) { animation-delay: 0.11s; }
+.home-grid .home-card:nth-child(3) { animation-delay: 0.17s; }
+.home-grid .home-card:nth-child(4) { animation-delay: 0.23s; }
+.home-grid .home-card:nth-child(5) { animation-delay: 0.29s; }
 
 .home-card.featured {
   grid-column: span 2;
@@ -857,6 +1010,15 @@ img { max-width: 100%; display: block; }
 }
 
 .home-card-icon svg { width: 22px; height: 22px; }
+
+/* Acentos de color tomados de la paleta de tracks — solo decorativos aquí,
+   no representan ningún track específico, existen para que Inicio no sea
+   monocromo (la única tarjeta que se mantiene azul institucional es Agenda,
+   por ser la destacada). */
+.home-card-icon--track-1 { background: rgba(27, 143, 125, 0.14); color: var(--track-1); }
+.home-card-icon--track-2 { background: rgba(214, 154, 42, 0.16); color: var(--track-2); }
+.home-card-icon--track-3 { background: rgba(107, 143, 66, 0.14); color: var(--track-3); }
+.home-card-icon--track-5 { background: rgba(92, 75, 122, 0.14); color: var(--track-5); }
 
 .home-card-title {
   font-size: 14.5px;
@@ -1107,6 +1269,45 @@ img { max-width: 100%; display: block; }
   margin-bottom: 12px;
 }
 
+/* Mapa LAC de fondo — aquí sí tiene sentido narrativo (la red reúne a toda
+   la región), grande y reconocible en vez de un sticker chico. "Contain" +
+   multiply para que el blanco del canvas desaparezca sin recortar el mapa. */
+.info-card--map {
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card--map h3,
+.info-card--map p {
+  position: relative;
+  z-index: 1;
+}
+
+.info-map-decor {
+  position: absolute;
+  right: -24px;
+  bottom: -18px;
+  width: 220px;
+  height: 220px;
+  background-image: url("../assets/mapa-lac-clean.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom right;
+  mix-blend-mode: multiply;
+  opacity: 0.3;
+  pointer-events: none;
+  animation: mapWipe 1.4s ease-out 0.3s both;
+}
+
+@keyframes mapWipe {
+  from { clip-path: inset(0 0 0 100%); }
+  to { clip-path: inset(0 0 0 0%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .info-map-decor { animation: none; }
+}
+
 .info-card h3 {
   font-size: 14px;
   color: var(--primary);
@@ -1122,6 +1323,48 @@ img { max-width: 100%; display: block; }
 .info-card p a {
   color: var(--primary);
   font-weight: 600;
+}
+
+/* Constelación decorativa — red de universidades/cooperación regional,
+   abstracta (no es un mapa real), se dibuja una sola vez al cargar. */
+.network-decor {
+  display: block;
+  width: 100%;
+  height: 44px;
+  margin: 6px 0 2px;
+  color: var(--primary);
+}
+
+.network-line {
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: 0.3;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: networkDraw 0.6s ease-out forwards;
+}
+
+.network-dot {
+  fill: currentColor;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: networkDot 0.4s ease-out forwards;
+}
+
+@keyframes networkDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes networkDot {
+  from { opacity: 0; transform: scale(0.3); }
+  to { opacity: 0.7; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .network-line { animation: none; stroke-dashoffset: 0; }
+  .network-dot { animation: none; opacity: 0.7; transform: scale(1); }
 }
 
 .logos-row {
