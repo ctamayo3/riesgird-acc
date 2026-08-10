@@ -149,8 +149,8 @@ img { max-width: 100%; display: block; }
   top: 0;
   z-index: 20;
   background: var(--bg);
-  padding-top: 8px;
-  padding-bottom: 6px;
+  padding-top: 12px;
+  padding-bottom: 8px;
 }
 
 .header-card {
@@ -230,17 +230,17 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   background: var(--surface);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card-lg);
-  padding: 12px 12px;
+  padding: 18px 12px;
   text-align: center;
   animation: fadeSlideUp 0.5s ease-out both;
 }
 
 .header-home-logo {
-  height: 52px;
+  height: 64px;
   width: auto;
   max-width: 100%;
 }
@@ -844,27 +844,26 @@ img { max-width: 100%; display: block; }
 
 .home-sheet {
   position: relative;
-  margin-top: 8px;
+  margin-top: 12px;
   background: var(--surface);
   border-radius: var(--card-radius) var(--card-radius) 0 0;
   box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
-  padding: 14px 4px 4px;
+  padding: 22px 4px 4px;
   animation: fadeSlideUp 0.5s ease-out 0.08s both;
 }
 
 .home-intro { position: relative; margin: 0 0 4px; padding: 0 12px; }
 
-/* Silueta de Lima + Andes (ilustración generada), detrás del logo. Alto fijo
-   y recortado con "cover" a propósito (a diferencia de antes) para que la
-   franja sea compacta — el recorte es leve porque el alto elegido no se
-   aleja mucho del aspect-ratio real de la imagen. */
+/* Silueta de Lima + Andes (ilustración generada), detrás del logo. Alto por
+   aspect-ratio real de la imagen (no un alto fijo con "cover") para que se
+   vea el horizonte completo, no solo una tira recortada del borde superior. */
 .home-hero-skyline {
-  height: 88px;
-  margin-bottom: -22px;
+  aspect-ratio: 1024 / 338;
+  margin-bottom: -28px;
   background-image: url("../assets/skyline-lima-andes.jpg");
   background-repeat: no-repeat;
   background-position: bottom center;
-  background-size: cover;
+  background-size: 100% auto;
   mix-blend-mode: multiply;
   opacity: 0.55;
   pointer-events: none;
@@ -872,13 +871,13 @@ img { max-width: 100%; display: block; }
 
 .home-intro-title {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 20px;
   color: var(--primary);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .home-intro-sub {
-  font-size: 12.5px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
@@ -887,8 +886,8 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 12px;
   border-radius: var(--card-radius);
-  padding: 10px 16px;
-  margin: 10px 12px 0;
+  padding: 14px 16px;
+  margin: 14px 12px 0;
 }
 
 .home-ahora-teaser.is-now {
@@ -935,8 +934,8 @@ img { max-width: 100%; display: block; }
 .home-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin: 10px 12px 12px;
+  gap: 12px;
+  margin: 16px 12px 12px;
 }
 
 .home-card {
@@ -944,11 +943,11 @@ img { max-width: 100%; display: block; }
   background: var(--surface);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card);
-  padding: 14px 14px;
+  padding: 18px 14px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-height: 108px;
+  gap: 10px;
+  min-height: 128px;
   animation: fadeSlideUp 0.45s ease-out both;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -969,7 +968,7 @@ img { max-width: 100%; display: block; }
   grid-column: span 2;
   flex-direction: row;
   align-items: center;
-  min-height: 80px;
+  min-height: 100px;
   background: var(--primary);
   color: #fff;
   box-shadow: var(--shadow-card-lg);

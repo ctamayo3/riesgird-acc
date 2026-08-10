@@ -27,15 +27,17 @@ async function renderAhoraTeaser() {
   const esAhora = now.length > 0;
   const extra = esAhora && now.length > 1 ? ` +${now.length - 1} en simultáneo` : "";
   const sala = salasById[destacada.sala_id];
-  const etiqueta = esAhora ? "Ahora" : `Siguiente · ${destacada.hora_inicio}`;
-  const metaLine = [etiqueta, sala ? sala.nombre : ""].filter(Boolean).join(" · ");
+  const etiqueta = esAhora
+    ? `Ahora · Día ${selectedDay}`
+    : `Siguiente · ${destacada.hora_inicio} · Día ${selectedDay}`;
 
   mount.innerHTML = `
     <a class="home-ahora-teaser${esAhora ? " is-now" : ""}" href="agenda.html">
       ${esAhora ? '<span class="pulse-dot"></span>' : ""}
       <div class="home-ahora-teaser-body">
+        <div class="home-ahora-teaser-meta">${etiqueta}</div>
         <div class="home-ahora-teaser-title">${destacada.titulo}${extra}</div>
-        <div class="home-ahora-teaser-meta">${metaLine}</div>
+        <div class="home-ahora-teaser-meta">${sala ? sala.nombre : ""}</div>
       </div>
       <div class="home-ahora-teaser-arrow">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
