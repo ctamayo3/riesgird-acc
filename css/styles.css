@@ -846,8 +846,8 @@ img { max-width: 100%; display: block; }
   position: relative;
   margin-top: 12px;
   background: var(--surface);
-  border-radius: var(--card-radius) var(--card-radius) 0 0;
-  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card-lg);
   padding: 22px 4px 4px;
   animation: fadeSlideUp 0.5s ease-out 0.08s both;
 }
