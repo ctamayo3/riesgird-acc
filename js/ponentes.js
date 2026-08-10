@@ -17,6 +17,13 @@ function colorFor(id) {
   return AVATAR_COLORS[hash];
 }
 
+function avatarHtml(p) {
+  if (p.foto_url) {
+    return `<img class="speaker-avatar speaker-avatar-photo" src="${p.foto_url}" alt="${p.nombre}" loading="lazy" />`;
+  }
+  return `<div class="speaker-avatar" style="background:${colorFor(p.id)}">${initialsOf(p.nombre)}</div>`;
+}
+
 async function renderPonentes() {
   const mount = document.getElementById("ponentes-mount");
   const [ponentes, sesiones] = await Promise.all([getPonentes(), getAgenda()]);
@@ -31,7 +38,7 @@ async function renderPonentes() {
         : "";
       return `
         <div class="speaker-card">
-          <div class="speaker-avatar" style="background:${colorFor(p.id)}">${initialsOf(p.nombre)}</div>
+          ${avatarHtml(p)}
           <div class="speaker-name">${p.nombre}</div>
           <div class="speaker-role">${p.cargo}</div>
           <div class="speaker-org">${p.institucion}</div>

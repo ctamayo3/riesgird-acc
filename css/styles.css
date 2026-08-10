@@ -149,8 +149,8 @@ img { max-width: 100%; display: block; }
   top: 0;
   z-index: 20;
   background: var(--bg);
-  padding-top: 12px;
-  padding-bottom: 8px;
+  padding-top: 8px;
+  padding-bottom: 6px;
 }
 
 .header-card {
@@ -230,17 +230,17 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   background: var(--surface);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card-lg);
-  padding: 18px 12px;
+  padding: 12px 12px;
   text-align: center;
   animation: fadeSlideUp 0.5s ease-out both;
 }
 
 .header-home-logo {
-  height: 64px;
+  height: 52px;
   width: auto;
   max-width: 100%;
 }
@@ -706,6 +706,12 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
 }
 
+.speaker-avatar-photo {
+  object-fit: cover;
+  object-position: top center;
+  background: var(--bg);
+}
+
 .speaker-name {
   font-size: 13.5px;
   font-weight: 600;
@@ -733,6 +739,11 @@ img { max-width: 100%; display: block; }
   margin-top: 6px;
   padding-top: 6px;
   border-top: 1px solid var(--bg);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ==========================================================================
@@ -792,25 +803,27 @@ img { max-width: 100%; display: block; }
 }
 
 .tab-bar-inner {
-  max-width: 520px;
-  width: 100%;
+  position: relative;
+  width: auto;
   min-height: var(--tab-bar-height);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  padding: 0 28px;
   background-color: var(--surface);
-  background-image: url("../assets/tabbar-illustration.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card-lg);
-  overflow: hidden;
   color: var(--primary);
   font-size: 12px;
   font-weight: 700;
   transition: opacity 0.15s ease;
+}
+
+.tab-bar-inner svg,
+.tab-bar-inner span {
+  position: relative;
+  z-index: 1;
 }
 
 .tab-bar-inner:active { opacity: 0.7; }
@@ -831,26 +844,27 @@ img { max-width: 100%; display: block; }
 
 .home-sheet {
   position: relative;
-  margin-top: 12px;
+  margin-top: 8px;
   background: var(--surface);
   border-radius: var(--card-radius) var(--card-radius) 0 0;
   box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
-  padding: 22px 4px 4px;
+  padding: 14px 4px 4px;
   animation: fadeSlideUp 0.5s ease-out 0.08s both;
 }
 
 .home-intro { position: relative; margin: 0 0 4px; padding: 0 12px; }
 
-/* Silueta de Lima + Andes (ilustración generada), detrás del logo. Alto por
-   aspect-ratio real de la imagen (no un alto fijo con "cover") para que se
-   vea el horizonte completo, no solo una tira recortada del borde superior. */
+/* Silueta de Lima + Andes (ilustración generada), detrás del logo. Alto fijo
+   y recortado con "cover" a propósito (a diferencia de antes) para que la
+   franja sea compacta — el recorte es leve porque el alto elegido no se
+   aleja mucho del aspect-ratio real de la imagen. */
 .home-hero-skyline {
-  aspect-ratio: 1024 / 338;
-  margin-bottom: -28px;
+  height: 88px;
+  margin-bottom: -22px;
   background-image: url("../assets/skyline-lima-andes.jpg");
   background-repeat: no-repeat;
   background-position: bottom center;
-  background-size: 100% auto;
+  background-size: cover;
   mix-blend-mode: multiply;
   opacity: 0.55;
   pointer-events: none;
@@ -858,13 +872,13 @@ img { max-width: 100%; display: block; }
 
 .home-intro-title {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 18px;
   color: var(--primary);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .home-intro-sub {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--text-secondary);
 }
 
@@ -873,8 +887,8 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 12px;
   border-radius: var(--card-radius);
-  padding: 14px 16px;
-  margin: 14px 12px 0;
+  padding: 10px 16px;
+  margin: 10px 12px 0;
 }
 
 .home-ahora-teaser.is-now {
@@ -921,8 +935,8 @@ img { max-width: 100%; display: block; }
 .home-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 16px 12px 12px;
+  gap: 10px;
+  margin: 10px 12px 12px;
 }
 
 .home-card {
@@ -930,11 +944,11 @@ img { max-width: 100%; display: block; }
   background: var(--surface);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card);
-  padding: 18px 14px;
+  padding: 14px 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  min-height: 128px;
+  gap: 8px;
+  min-height: 108px;
   animation: fadeSlideUp 0.45s ease-out both;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -955,7 +969,7 @@ img { max-width: 100%; display: block; }
   grid-column: span 2;
   flex-direction: row;
   align-items: center;
-  min-height: 100px;
+  min-height: 80px;
   background: var(--primary);
   color: #fff;
   box-shadow: var(--shadow-card-lg);
