@@ -21,7 +21,7 @@ async function renderSalas() {
       const digitos = sala.nombre.match(/\d+/);
       const codigo = sala.id === "por-confirmar" ? "?" : digitos ? digitos[0] : sala.nombre.slice(0, 3).toUpperCase();
       return `
-        <div class="sala-card${activa ? " is-now" : ""}">
+        <div class="sala-card${activa ? " is-now" : ""}" id="sala-${sala.id}">
           <div class="sala-icon mono">${codigo}</div>
           <div style="flex:1; min-width:0;">
             <div class="sala-name">${sala.nombre}</div>
@@ -36,6 +36,32 @@ async function renderSalas() {
       `;
     })
     .join("");
+
+  wireCampusMap(salas, sesionesDelDia, nowHHMM);
+}
+
+function wireCampusMap(salas, sesionesDelDia, nowHHMM) {
+  document.querySelectorAll(".campus-hotspot").forEach((hotspot) => {
+    const salaId = hotspot.dataset.sala;
+    const sala = salas.find((s) => s.id === salaId);
+    if (!sala) return;
+
+    const activa = sesionesDelDia.find((s) => s.sala_id === salaId && isSessionNow(s, nowHHMM));
+    const existingDot = hotspot.querySelector(".pulse-dot");
+    if (activa && !existingDot) {
+      hotspot.insertAdjacentHTML("beforeend", '<span class="pulse-dot"></span>');
+    } else if (!activa && existingDot) {
+      existingDot.remove();
+    }
+
+    hotspot.onclick = () => {
+      const card = document.getElementById(`sala-${salaId}`);
+      if (!card) return;
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.classList.add("sala-card-flash");
+      setTimeout(() => card.classList.remove("sala-card-flash"), 900);
+    };
+  });
 }
 
 document.addEventListener("DOMContentLoaded", renderSalas);
