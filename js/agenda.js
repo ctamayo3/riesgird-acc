@@ -33,6 +33,28 @@ const TIPO_LABELS = {
   panel: "Panel",
 };
 
+const TIPO_ICONS = {
+  registro: "assets/icons/agenda/registro.png",
+  ceremonia: "assets/icons/agenda/ceremonia.png",
+  conferencia: "assets/icons/agenda/conferencia.png",
+  panel: "assets/icons/agenda/panel.png",
+  dialogo: "assets/icons/agenda/dialogo.png",
+  receso: "assets/icons/agenda/receso.png",
+};
+
+function sessionIconSrc(sesion) {
+  if (sesion.id === "s-d1-almuerzo") return "assets/icons/agenda/almuerzo.png";
+  if (sesion.tipo === "track") {
+    const track = state.tracksById[sesion.track_id];
+    return track ? track.icono : null;
+  }
+  return TIPO_ICONS[sesion.tipo] || null;
+}
+
+function chevronIconSvg() {
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
+}
+
 function isBreakType(sesion) {
   return sesion.tipo === "registro" || sesion.tipo === "receso";
 }
@@ -120,44 +142,56 @@ function breakRowHtml(sesion) {
 
 function nowNextCardHtml(sesion, opts) {
   const isNow = opts && opts.isNow;
+  const iconSrc = sessionIconSrc(sesion);
+  const isAlmuerzoNow = isNow && sesion.id === "s-d1-almuerzo";
 
   if (isBreakType(sesion)) {
     return `
-      <div class="${isNow ? "now-card" : "next-card"}" data-sesion-id="${sesion.id}">
-        ${
-          isNow
-            ? `<div class="now-badge"><span class="pulse-dot"></span> Ahora</div>`
-            : `<div class="next-label">Siguiente</div>`
-        }
-        <div class="session-title">${sesion.titulo}</div>
-        <div class="session-meta"><span class="mono">${sesion.hora_inicio}–${sesion.hora_fin}</span></div>
+      <div class="${isNow ? "now-card" : "next-card"}${isAlmuerzoNow ? " now-card--almuerzo" : ""}" data-track="${trackColorKey(sesion)}" data-sesion-id="${sesion.id}">
+        <div class="session-card-row">
+          ${iconSrc ? `<img class="session-card-icon" src="${iconSrc}" alt="" aria-hidden="true" />` : ""}
+          <div class="session-card-body">
+            ${
+              isNow
+                ? `<div class="now-badge"><span class="pulse-dot"></span> Ahora</div>`
+                : `<div class="next-label">Siguiente</div>`
+            }
+            <div class="session-title">${sesion.titulo}</div>
+            <div class="session-meta"><span class="mono">${sesion.hora_inicio}–${sesion.hora_fin}</span></div>
+          </div>
+        </div>
+        ${isAlmuerzoNow ? `<img class="now-card-illustration" src="assets/icons/agenda/almuerzo.png" alt="" aria-hidden="true" />` : ""}
       </div>
     `;
   }
 
   const fav = isFavorite(sesion.id);
   return `
-    <div class="${isNow ? "now-card" : "next-card"}" data-sesion-id="${sesion.id}">
+    <div class="${isNow ? "now-card" : "next-card"}" data-track="${trackColorKey(sesion)}" data-sesion-id="${sesion.id}">
       ${isWaterTrack(sesion) ? waterRippleHtml() : ""}
-      ${
-        isNow
-          ? `<div class="now-badge"><span class="pulse-dot"></span> Ahora</div>`
-          : `<div class="next-label">Siguiente</div>`
-      }
       <div class="session-card-top">
-        <div>
-          ${trackTagHtml(sesion, !isNow)}
-          <div class="session-title">${sesion.titulo}</div>
-        </div>
+        ${
+          isNow
+            ? `<div class="now-badge"><span class="pulse-dot"></span> Ahora</div>`
+            : `<div class="next-label">Siguiente</div>`
+        }
         <button class="fav-btn${fav ? " is-fav" : ""}" data-fav-toggle="${sesion.id}" aria-label="Marcar como favorito">
           ${favIconHtml(fav)}
         </button>
       </div>
-      <div class="session-meta">
-        <span class="mono">${sesion.hora_inicio}–${sesion.hora_fin}</span>
-        ${salaNombre(sesion) ? `<span class="mono">${salaNombre(sesion)}</span>` : ""}
+      ${trackTagHtml(sesion, !isNow)}
+      <div class="session-card-row">
+        ${iconSrc ? `<img class="session-card-icon" src="${iconSrc}" alt="" aria-hidden="true" />` : ""}
+        <div class="session-card-body">
+          <div class="session-title">${sesion.titulo}</div>
+          <div class="session-meta">
+            <span class="mono">${sesion.hora_inicio}–${sesion.hora_fin}</span>
+            ${salaNombre(sesion) ? `<span class="mono">${salaNombre(sesion)}</span>` : ""}
+          </div>
+          ${speakerNamesHtml(sesion) ? `<div class="session-speakers">${speakerNamesHtml(sesion)}</div>` : ""}
+        </div>
+        <button class="session-card-chevron" aria-hidden="true" tabindex="-1">${chevronIconSvg()}</button>
       </div>
-      ${speakerNamesHtml(sesion) ? `<div class="session-speakers">${speakerNamesHtml(sesion)}</div>` : ""}
     </div>
   `;
 }
@@ -211,6 +245,7 @@ function renderTimeline() {
 
       const trackKey = trackColorKey(s);
       const fav = isFavorite(s.id);
+      const iconSrc = sessionIconSrc(s);
       return `
         <div class="timeline-item${active ? " is-now" : ""}">
           <div class="timeline-time mono">${s.hora_inicio}</div>
@@ -218,19 +253,23 @@ function renderTimeline() {
           <div class="session-card${active ? " is-now" : ""}" data-track="${trackKey}" data-sesion-id="${s.id}">
             ${isWaterTrack(s) ? waterRippleHtml() : ""}
             <div class="session-card-top">
-              <div>
-                ${trackTagHtml(s, false)}
-                <div class="session-title">${s.titulo}</div>
-              </div>
+              ${trackTagHtml(s, true)}
               <button class="fav-btn${fav ? " is-fav" : ""}" data-fav-toggle="${s.id}" aria-label="Marcar como favorito">
                 ${favIconHtml(fav)}
               </button>
             </div>
-            <div class="session-meta">
-              <span class="mono">${s.hora_inicio}–${s.hora_fin}</span>
-              ${salaNombre(s) ? `<span class="mono">${salaNombre(s)}</span>` : ""}
+            <div class="session-card-row">
+              ${iconSrc ? `<img class="session-card-icon" src="${iconSrc}" alt="" aria-hidden="true" />` : ""}
+              <div class="session-card-body">
+                <div class="session-title">${s.titulo}</div>
+                <div class="session-meta">
+                  <span class="mono">${s.hora_inicio}–${s.hora_fin}</span>
+                  ${salaNombre(s) ? `<span class="mono">${salaNombre(s)}</span>` : ""}
+                </div>
+                ${speakerNamesHtml(s) ? `<div class="session-speakers">${speakerNamesHtml(s)}</div>` : ""}
+              </div>
+              <button class="session-card-chevron" aria-hidden="true" tabindex="-1">${chevronIconSvg()}</button>
             </div>
-            ${speakerNamesHtml(s) ? `<div class="session-speakers">${speakerNamesHtml(s)}</div>` : ""}
           </div>
         </div>
       `;

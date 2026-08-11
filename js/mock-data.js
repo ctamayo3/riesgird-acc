@@ -19,6 +19,7 @@ const TRACKS = [
     nombre: "Gobernanza del agua y seguridad hídrica",
     descripcion: "Modelos de gobernanza del agua y seguridad hídrica frente al riesgo de desastres y el cambio climático.",
     color_key: "track-1",
+    icono: "assets/icons/agenda/track-a.png",
   },
   {
     id: "t_b",
@@ -26,6 +27,7 @@ const TRACKS = [
     nombre: "Gestión del Riesgo de Desastres y Resiliencia Territorial",
     descripcion: "Enfoques integrados de gestión del riesgo orientados a la resiliencia territorial.",
     color_key: "track-2",
+    icono: "assets/icons/agenda/track-b.png",
   },
   {
     id: "t_c",
@@ -33,6 +35,7 @@ const TRACKS = [
     nombre: "Adaptación al Cambio Climático y Acción Climática Local",
     descripcion: "Adaptación climática y acción climática local en el ámbito subnacional.",
     color_key: "track-3",
+    icono: "assets/icons/agenda/track-c.png",
   },
   {
     id: "t_d",
@@ -40,6 +43,7 @@ const TRACKS = [
     nombre: "Territorios seguros y sostenibles",
     descripcion: "Ciudades sostenibles: gobernanza urbana, financiamiento e intervención territorial.",
     color_key: "track-5",
+    icono: "assets/icons/agenda/track-d.png",
   },
   {
     id: "t_e",
@@ -47,6 +51,7 @@ const TRACKS = [
     nombre: "Gestión de emergencias, preparación, respuesta y rehabilitación",
     descripcion: "Preparación, respuesta y rehabilitación ante emergencias y eventos extremos.",
     color_key: "track-4",
+    icono: "assets/icons/agenda/track-e.png",
   },
 ];
 

@@ -358,12 +358,25 @@ img { max-width: 100%; display: block; }
 .now-card {
   position: relative;
   overflow: hidden;
-  background: var(--primary);
+  background: linear-gradient(120deg, var(--primary) 0%, var(--primary) 55%, var(--vivid-red-dark) 130%);
   color: #fff;
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card-lg);
   padding: 16px 18px;
 }
+
+.now-card-illustration {
+  position: absolute;
+  z-index: 0;
+  right: -10px;
+  bottom: -10px;
+  width: 132px;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.now-card--almuerzo .session-card-body { padding-right: 84px; }
 
 .now-badge {
   position: relative;
@@ -410,9 +423,9 @@ img { max-width: 100%; display: block; }
   }
 }
 
-.now-card .session-title,
-.now-card .session-meta,
-.now-card .session-speakers {
+.now-card .session-card-row,
+.now-card .session-card-top,
+.now-card .session-tag {
   position: relative;
   z-index: 1;
 }
@@ -421,6 +434,8 @@ img { max-width: 100%; display: block; }
 .now-card .session-meta { color: rgba(255, 255, 255, 0.8); }
 .now-card .session-meta .mono { color: #fff; }
 .now-card .session-speakers { color: rgba(255, 255, 255, 0.75); }
+.now-card .session-card-icon { background: rgba(255, 255, 255, 0.15); border-radius: 50%; }
+.now-card .session-card-chevron { background: rgba(255, 255, 255, 0.9); color: var(--primary); }
 
 .session-title {
   font-size: 16px;
@@ -439,12 +454,49 @@ img { max-width: 100%; display: block; }
 
 .session-meta .mono { color: var(--text-primary); font-weight: 500; }
 
+/* Fila ícono + contenido + flecha, compartida por now-card/next-card/session-card.
+   align-items: flex-start — con listas de ponentes largas, "center" deja el
+   ícono flotando a mitad de los ponentes en vez de junto al título. */
+.session-card-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.session-card-chevron { margin-top: 2px; }
+
+.session-card-icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  display: block;
+}
+
+.session-card-body { flex: 1; min-width: 0; }
+
+.session-card-chevron {
+  flex-shrink: 0;
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(27, 58, 83, 0.06);
+  color: var(--primary);
+}
+
+.session-card-chevron svg { width: 16px; height: 16px; }
+
 .next-card {
   position: relative;
   margin-top: 10px;
-  background: transparent;
-  border: 1px dashed rgba(91, 97, 101, 0.35);
+  background: var(--surface);
   border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
   padding: 14px 16px;
 }
 
@@ -454,7 +506,6 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-secondary);
-  margin-bottom: 6px;
 }
 
 .empty-now {
@@ -536,15 +587,15 @@ img { max-width: 100%; display: block; }
   background: var(--alert-active);
 }
 
-/* Tarjetas de sesión: bloque de color sólido (identidad del track a toda el
-   área), no una tarjeta blanca con una franja de color al costado. */
+/* Tarjetas de sesión: tarjeta blanca con franja de color de track al
+   costado (izquierda), ícono de tema y flecha de navegación. */
 .session-card {
   position: relative;
+  background: var(--surface);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card);
   padding: 14px 16px;
   min-height: 44px;
-  color: #fff;
 }
 
 /* Ondas de agua — acento temático solo en sesiones del track hídrico (A),
@@ -556,11 +607,11 @@ img { max-width: 100%; display: block; }
   right: 12px;
   width: 22px;
   height: 22px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(27, 143, 125, 0.55);
   pointer-events: none;
 }
 
-.next-card .water-ripple { color: rgba(27, 143, 125, 0.55); }
+.now-card .water-ripple { color: rgba(255, 255, 255, 0.6); }
 
 .water-ripple circle {
   transform-origin: 12px 12px;
@@ -581,24 +632,38 @@ img { max-width: 100%; display: block; }
 
 .session-card.is-now { box-shadow: var(--shadow-card-lg); }
 
-.session-card[data-track="primary"] { background: var(--primary); }
-.session-card[data-track="track-1"] { background: var(--track-1-fill); }
-.session-card[data-track="track-2"] { background: var(--track-2-fill); }
-.session-card[data-track="track-3"] { background: var(--track-3-fill); }
-.session-card[data-track="track-4"] { background: var(--track-4-fill); }
-.session-card[data-track="track-5"] { background: var(--track-5-fill); }
+.session-card[data-track="primary"],
+.next-card[data-track="primary"] { border-left: 4px solid var(--primary); }
+.session-card[data-track="track-1"],
+.next-card[data-track="track-1"] { border-left: 4px solid var(--track-1); }
+.session-card[data-track="track-2"],
+.next-card[data-track="track-2"] { border-left: 4px solid var(--track-2); }
+.session-card[data-track="track-3"],
+.next-card[data-track="track-3"] { border-left: 4px solid var(--track-3); }
+.session-card[data-track="track-4"],
+.next-card[data-track="track-4"] { border-left: 4px solid var(--track-4); }
+.session-card[data-track="track-5"],
+.next-card[data-track="track-5"] { border-left: 4px solid var(--track-5); }
+
+.session-card[data-track="primary"] .session-card-chevron,
+.next-card[data-track="primary"] .session-card-chevron { color: var(--primary); }
+.session-card[data-track="track-1"] .session-card-chevron,
+.next-card[data-track="track-1"] .session-card-chevron { color: var(--track-1); }
+.session-card[data-track="track-2"] .session-card-chevron,
+.next-card[data-track="track-2"] .session-card-chevron { color: var(--track-2); }
+.session-card[data-track="track-3"] .session-card-chevron,
+.next-card[data-track="track-3"] .session-card-chevron { color: var(--track-3); }
+.session-card[data-track="track-4"] .session-card-chevron,
+.next-card[data-track="track-4"] .session-card-chevron { color: var(--track-4); }
+.session-card[data-track="track-5"] .session-card-chevron,
+.next-card[data-track="track-5"] .session-card-chevron { color: var(--track-5); }
 
 .session-card-top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 8px;
 }
-
-.session-card .session-title { font-size: 14.5px; margin-bottom: 4px; color: #fff; }
-.session-card .session-meta { color: rgba(255, 255, 255, 0.8); }
-.session-card .session-meta .mono { color: #fff; }
-.session-card .session-speakers { color: rgba(255, 255, 255, 0.75); }
 
 /* Tag/etiqueta cuando la tarjeta contenedora YA es de color sólido: chip
    translúcido, para no apilar color sobre color. */
@@ -692,7 +757,7 @@ img { max-width: 100%; display: block; }
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--text-secondary);
 }
 
 .fav-btn svg { width: 20px; height: 20px; }
@@ -703,9 +768,9 @@ img { max-width: 100%; display: block; }
 .fav-btn.is-fav { color: var(--alert-active); }
 .fav-btn.is-fav svg { fill: var(--alert-active); }
 
-/* Sobre tarjetas claras (ej. tarjeta "Siguiente", fondo transparente/claro) */
-.next-card .fav-btn { color: var(--text-secondary); }
-.next-card .fav-btn.is-fav { color: var(--alert-active); }
+/* Sobre la tarjeta "Ahora" (fondo oscuro) */
+.now-card .fav-btn { color: rgba(255, 255, 255, 0.65); }
+.now-card .fav-btn.is-fav { color: var(--alert-active); }
 
 /* ==========================================================================
    Ponentes grid
