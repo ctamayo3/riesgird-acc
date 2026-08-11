@@ -36,17 +36,22 @@ Orquesta la pantalla de Agenda: tabs de día, bloque ahora/siguiente, timeline v
 
 Tipos de sesión (`tipo`): `registro`, `receso` (se renderizan como fila ligera `.timeline-break`, sin card ni favorito), `ceremonia`, `conferencia`, `panel`, `track` (usa `track_id` y color del track), `dialogo`. Los ponentes no confirmados van en `instituciones_pendientes: []` (array de nombres de institución) y se muestran inline como *"Ponente pendiente (Institución)"* — no se inventan nombres de personas no confirmadas.
 
+Cada tarjeta de sesión (`.now-card`/`.next-card`/`.session-card`) muestra un ícono circular ilustrado a la izquierda vía `sessionIconSrc()` en `agenda.js`: para `tipo: "track"` usa el campo `icono` del track correspondiente en `TRACKS` (`js/mock-data.js`); para el resto, el mapa `TIPO_ICONS` (uno por `registro`/`ceremonia`/`conferencia`/`panel`/`dialogo`/`receso`). La sesión `s-d1-almuerzo` es un caso especial hardcodeado por `id` (no por `tipo`, que sigue siendo `receso` como los demás recesos): usa `assets/icons/agenda/almuerzo.png` también como ilustración grande sangrando en la tarjeta "Ahora" (`.now-card-illustration`) cuando está en curso.
+
 Estado de día seleccionado se persiste en `localStorage` bajo la key `riesgird_selected_day` y lo leen también `home.js` y `salas.js` para mantenerse sincronizados entre páginas.
 
 ### Sistema de diseño — `css/styles.css` + `theme.json`
 `theme.json` es la especificación original de tokens (color/tipografía/forma) — `styles.css` debe mantenerse fiel a ella para Agenda/Salas/Ponentes/Guía/Info. Reglas que no deben romperse ahí:
 - `--alert-active` (naranja) es **exclusivo** del marcador "ahora" en el cronograma — nunca decorativo, nunca repetido en otro lugar.
-- Texto sobre fondo de color: blanco o un tono más oscuro de la misma familia — nunca negro puro. Por eso existen variantes `--track-N-fill` (más oscuras que `--track-N`) para garantizar contraste AA con texto blanco en las tarjetas de sesión de color sólido.
+- Texto sobre fondo de color: blanco o un tono más oscuro de la misma familia — nunca negro puro. Las variantes `--track-N-fill` (más oscuras que `--track-N`) quedaron de cuando las tarjetas de sesión eran de color sólido; ya no se usan como fondo de `.session-card` (ver abajo), pero se mantienen porque `.session-tag.on-light` sigue usándolas como fondo de la pastilla de track.
 - 5 tracks temáticos reales (A–E, en `TRACKS`), cada uno mapeado a un `color_key` (`track-1`..`track-5`).
+- Las tarjetas de sesión (`.session-card`, `.next-card`) son blancas con franja de color (`border-left`) según `data-track`, no fondo sólido — cambiado en el rediseño de Agenda (ver "Estado actual"). `.now-card` sigue siendo la excepción: degradado navy→rojo, texto blanco.
 
 **Rediseño "vívido" en curso (solo Inicio por ahora):** a pedido del cliente, Inicio se separó de la paleta institucional de `theme.json` hacia una paleta más saturada y con ilustraciones (tokens `--vivid-*` en `:root`: azul, rojo, verde, naranja, teal, morado + sus variantes `-tint`). Esto es una decisión deliberada de este rediseño, no una inconsistencia — pero significa que **Inicio y el resto de la app hoy se ven visualmente distintos a propósito**, mientras se decide si el estilo vívido se extiende al resto de páginas. Si tocas Inicio, usa los tokens `--vivid-*`; si tocas cualquier otra página, sigue con los tokens institucionales de siempre.
 
 Los íconos circulares de color de Inicio (Ahora/Agenda/Salas/Ponentes/Guía/Info) y las ilustraciones grandes de las tarjetas y del saludo son PNG reales en `assets/icons/` y `assets/illustrations/` (assets proporcionados por el cliente, no generados por Claude) — no son SVG inline como el resto de íconos de la app.
+
+Los íconos de `assets/icons/agenda/` (5 tracks + registro/ceremonia/conferencia/panel/dialogo/receso/almuerzo) sí son generados por IA: Claude escribió prompts (estilo flat-vector, ícono circular, un color de acento por track/tipo) que el cliente corrió en ChatGPT como una sola hoja de 12 íconos en grilla, y Claude la recortó en piezas individuales vía `System.Drawing` de PowerShell (no hay Python/ImageMagick disponibles en este entorno) usando detección de bordes por canal alfa para encontrar los límites reales de cada ícono, no una grilla pareja a ojo.
 
 ### `js/favorites.js`
 Favoritos de sesiones — solo `localStorage`, sin backend, sin login.
@@ -66,10 +71,11 @@ Favoritos de sesiones — solo `localStorage`, sin backend, sin login.
 - El bloque "Café abierto" del Día 1 (15:00–15:30) se solapa en el documento fuente con las mesas paralelas (14:00–15:30) — tiene `horario_por_confirmar: true` y muestra un badge "Horario a confirmar" hasta que se resuelva con el organizador.
 - Asamblea de Rectores (Día 2, sesión cerrada) se omite intencionalmente de la agenda pública.
 
-**Diseño visual — rediseño grande en curso, Inicio ya migrado, el resto no:**
+**Diseño visual — rediseño grande en curso, Inicio y Agenda ya migrados, Salas/Ponentes/Guía/Info no:**
 - Inicio tiene un rediseño completo con paleta "vívida" (ver sección de diseño arriba): header en blanco liso (se probaron blobs de color rojo/azul, el cliente los rechazó), tarjeta "Ahora" con degradado navy→rojo, tarjeta Agenda celeste, tarjetas Salas/Ponentes/Guía/Info con ícono circular ilustrado + ilustración grande al costado (no encimada con el texto — eso ya se corrigió una vez, cuidado si se vuelve a tocar el layout).
-- **Pendiente explícito**: decidir si Agenda/Salas/Ponentes/Guía/Info adoptan este mismo estilo vívido, o si Inicio queda como la única pantalla "vívida" y el resto sigue con la paleta institucional de `theme.json`. No asumir una respuesta — preguntar antes de replicar el estilo al resto.
-- Las 5 ilustraciones grandes de Inicio (`assets/illustrations/*.png`) pesan 1.2–1.9 MB cada una a 1890×1890px — **pendiente comprimir/redimensionar** antes de un lanzamiento real (la app está pensada para funcionar con el wifi del venue).
+- Agenda (tarjetas de sesión) también se rediseñó, a pedido explícito del cliente con captura de referencia: pasaron de fondo sólido de color a tarjeta blanca + franja de color + pastilla de track + ícono circular por track/tipo + botón de flecha. Usa los tokens institucionales `--track-N` (no `--vivid-*`) — es un rediseño estructural (forma de la tarjeta), no una migración a la paleta vívida de Inicio.
+- **Pendiente explícito**: decidir si Salas/Ponentes/Guía/Info adoptan también este tratamiento (blanco + acento + ícono), o si quedan con la paleta institucional plana de siempre. No asumir una respuesta — preguntar antes de replicar el estilo al resto.
+- Las 5 ilustraciones grandes de Inicio (`assets/illustrations/*.png`) pesan 1.2–1.9 MB cada una a 1890×1890px — **pendiente comprimir/redimensionar** antes de un lanzamiento real (la app está pensada para funcionar con el wifi del venue). Los íconos nuevos de `assets/icons/agenda/` no se optimizaron todavía tampoco (~100-165 KB cada uno).
 - Croquis interactivo del campus ya en Salas (ver sección de arquitectura arriba).
 - Se agregaron varias animaciones de marca en Agenda/Info (conector del cronograma y bordes de tarjeta que se "dibujan" al hacer scroll, ondas de agua en el track hídrico, constelación LAC en Info, ícono de lupa animado en estados vacíos) — todas respetan `prefers-reduced-motion`.
 
