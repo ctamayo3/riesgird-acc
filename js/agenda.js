@@ -179,7 +179,7 @@ function nowNextCardHtml(sesion, opts) {
           ${favIconHtml(fav)}
         </button>
       </div>
-      ${trackTagHtml(sesion, !isNow)}
+      ${trackTagHtml(sesion, true)}
       <div class="session-card-row">
         ${iconSrc ? `<img class="session-card-icon" src="${iconSrc}" alt="" aria-hidden="true" />` : ""}
         <div class="session-card-body">

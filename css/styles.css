@@ -358,8 +358,8 @@ img { max-width: 100%; display: block; }
 .now-card {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(120deg, var(--primary) 0%, var(--primary) 55%, var(--vivid-red-dark) 130%);
-  color: #fff;
+  background: var(--surface);
+  border: 2px solid var(--alert-active);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card-lg);
   padding: 16px 18px;
@@ -389,8 +389,13 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.06em;
   color: #fff;
   text-transform: uppercase;
+  background: var(--alert-active);
+  padding: 4px 10px;
+  border-radius: 20px;
   margin-bottom: 8px;
 }
+
+.now-badge .pulse-dot { background: #fff; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5); }
 
 .pulse-dot {
   width: 8px;
@@ -430,12 +435,6 @@ img { max-width: 100%; display: block; }
   z-index: 1;
 }
 
-.now-card .session-title { color: #fff; }
-.now-card .session-meta { color: rgba(255, 255, 255, 0.8); }
-.now-card .session-meta .mono { color: #fff; }
-.now-card .session-speakers { color: rgba(255, 255, 255, 0.75); }
-.now-card .session-card-icon { background: rgba(255, 255, 255, 0.15); border-radius: 50%; }
-.now-card .session-card-chevron { background: rgba(255, 255, 255, 0.9); color: var(--primary); }
 
 .session-title {
   font-size: 16px;
@@ -506,6 +505,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-secondary);
+  margin-bottom: 8px;
 }
 
 .empty-now {
@@ -611,8 +611,6 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
 }
 
-.now-card .water-ripple { color: rgba(255, 255, 255, 0.6); }
-
 .water-ripple circle {
   transform-origin: 12px 12px;
   animation: rippleExpand 2.4s ease-out infinite;
@@ -663,10 +661,12 @@ img { max-width: 100%; display: block; }
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  margin-bottom: 8px;
 }
 
-/* Tag/etiqueta cuando la tarjeta contenedora YA es de color sólido: chip
-   translúcido, para no apilar color sobre color. */
+/* Todas las tarjetas de sesión son claras ahora — el chip de track siempre
+   usa la variante de color sólido (antes había una versión translúcida
+   para cuando la tarjeta contenedora era oscura; ya no aplica). */
 .session-tag {
   display: inline-block;
   font-size: 10.5px;
@@ -676,7 +676,7 @@ img { max-width: 100%; display: block; }
   padding: 3px 8px;
   border-radius: 20px;
   color: #fff;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--text-secondary);
   margin-bottom: 6px;
 }
 
@@ -696,6 +696,10 @@ img { max-width: 100%; display: block; }
   font-size: 12.5px;
   color: var(--text-secondary);
   margin-top: 4px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 /* Menciones de "Ponente pendiente (Institución)" dentro de la lista de
@@ -767,10 +771,6 @@ img { max-width: 100%; display: block; }
 
 .fav-btn.is-fav { color: var(--alert-active); }
 .fav-btn.is-fav svg { fill: var(--alert-active); }
-
-/* Sobre la tarjeta "Ahora" (fondo oscuro) */
-.now-card .fav-btn { color: rgba(255, 255, 255, 0.65); }
-.now-card .fav-btn.is-fav { color: var(--alert-active); }
 
 /* ==========================================================================
    Ponentes grid
