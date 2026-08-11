@@ -69,7 +69,7 @@ Las tarjetas de sala (`.sala-card`) usan un ícono circular vía el mapa `SALA_I
 - Contenido real cargado desde el programa oficial del Foro (no hay datos ficticios en `mock-data.js`).
 - Pendiente de organización: salas de los 5 tracks paralelos marcadas como `"por-confirmar"` (no hay asignación real de sala todavía). El croquis de campus asume que "por-confirmar" = Edificio A (ver arriba) hasta que se sepa el aula exacta.
 - Varios ponentes aparecen como pendientes de confirmación (`instituciones_pendientes`) — actualizar sus IDs reales en `PONENTES` y mover su nombre a `ponente_ids` en la sesión correspondiente cuando se confirmen.
-- 14 de 18 ponentes en `PONENTES` ya tienen foto real (`foto_url` → `assets/ponentes/pN.png`); los 4 restantes (Miguel Estrada, Zully Vera de Molina, Eduardo Gutiérrez Gaslín, Tim Callaghan) siguen con avatar de iniciales porque no llegó foto de ellos.
+- 15 de 18 ponentes en `PONENTES` ya tienen foto real (`foto_url` → `assets/ponentes/pN.png`); los 3 restantes (Zully Vera de Molina, Eduardo Gutiérrez Gaslín, Tim Callaghan) siguen con avatar de iniciales porque no llegó foto de ellos.
 - El bloque "Café abierto" del Día 1 (15:00–15:30) se solapa en el documento fuente con las mesas paralelas (14:00–15:30) — tiene `horario_por_confirmar: true` y muestra un badge "Horario a confirmar" hasta que se resuelva con el organizador.
 - Asamblea de Rectores (Día 2, sesión cerrada) se omite intencionalmente de la agenda pública.
 
