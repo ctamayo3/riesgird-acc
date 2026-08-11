@@ -61,7 +61,7 @@ const SALAS = [
 ];
 
 const PONENTES = [
-  { id: "p1", nombre: "Dr. Jaime Serida Nishimura", cargo: "Rector — Presidencia de la Red RiesGIRD-ACC LAC y Perú", institucion: "Universidad ESAN", foto_url: null },
+  { id: "p1", nombre: "Dr. Jaime Serida Nishimura", cargo: "Rector — Presidencia de la Red RiesGIRD-ACC LAC y Perú", institucion: "Universidad ESAN", foto_url: "assets/ponentes/p1.png" },
   { id: "p2", nombre: "Dr. Miguel Estrada", cargo: "Moderador", institucion: "Universidad Nacional de Ingeniería (UNI)", foto_url: null },
   { id: "p3", nombre: "Dra. Jeri Ramón Ruffner", cargo: "Rectora", institucion: "Universidad Nacional Mayor de San Marcos (UNMSM)", foto_url: "assets/ponentes/p3.png" },
   { id: "p4", nombre: "Dr. José Barrón López", cargo: "Rector", institucion: "Universidad Nacional Agraria La Molina (UNALM)", foto_url: "assets/ponentes/p4.png" },
