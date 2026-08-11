@@ -30,17 +30,19 @@ async function renderAhoraTeaser() {
   const etiqueta = esAhora
     ? `Ahora · Día ${selectedDay}`
     : `Siguiente · ${destacada.hora_inicio} · Día ${selectedDay}`;
+  const pinIcon =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.4-6-10a6 6 0 0 1 12 0c0 4.6-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>';
 
   mount.innerHTML = `
     <a class="home-ahora-teaser${esAhora ? " is-now" : ""}" href="agenda.html">
-      ${esAhora ? '<span class="pulse-dot"></span>' : ""}
+      <img class="home-ahora-teaser-icon" src="assets/icons/icon-ahora.png" alt="" aria-hidden="true" />
       <div class="home-ahora-teaser-body">
-        <div class="home-ahora-teaser-meta">${etiqueta}</div>
+        <span class="home-ahora-teaser-badge">${esAhora ? '<span class="pulse-dot"></span>' : ""}${etiqueta}</span>
         <div class="home-ahora-teaser-title">${destacada.titulo}${extra}</div>
-        <div class="home-ahora-teaser-meta">${sala ? sala.nombre : ""}</div>
+        ${sala ? `<div class="home-ahora-teaser-meta">${pinIcon}${sala.nombre}</div>` : ""}
       </div>
       <div class="home-ahora-teaser-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
       </div>
     </a>
   `;

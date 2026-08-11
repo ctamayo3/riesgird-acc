@@ -39,6 +39,22 @@
 
   --tab-bar-height: 64px;
   --header-height: 96px;
+
+  /* Paleta "vívida" — solo para Inicio por ahora (rediseño en curso, más
+     color y vida). No reemplaza los tokens de --track-N usados en Agenda. */
+  --vivid-blue: #3B7DDE;
+  --vivid-blue-dark: #2A5FC7;
+  --vivid-blue-tint: #EAF1FE;
+  --vivid-red: #EF476F;
+  --vivid-red-dark: #D62E56;
+  --vivid-green: #2FBF71;
+  --vivid-green-tint: #E9FBF1;
+  --vivid-orange: #FF8A3D;
+  --vivid-orange-tint: #FFF1E6;
+  --vivid-teal: #22B8A0;
+  --vivid-teal-tint: #E6FAF7;
+  --vivid-purple: #8B5FE0;
+  --vivid-purple-tint: #F4EFFD;
 }
 
 /* ==========================================================================
@@ -61,8 +77,6 @@ body {
   padding-bottom: calc(var(--tab-bar-height) + 38px);
   min-height: 100vh;
 }
-
-body[data-page="inicio"] { padding-bottom: 24px; }
 
 h1, h2, h3, h4 { margin: 0; font-weight: 600; }
 
@@ -226,31 +240,50 @@ img { max-width: 100%; display: block; }
 
 .header-top-spacer { width: 34px; }
 
-.header-home-brand {
+/* Header "vívido" de Inicio — reemplaza la tarjeta blanca plana por formas
+   orgánicas de color en las esquinas (rediseño en curso, más vida). */
+.header-vivid {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
   background: var(--surface);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card-lg);
-  padding: 18px 12px;
+  padding: 26px 16px 20px;
   text-align: center;
   animation: fadeSlideUp 0.5s ease-out both;
 }
 
+.header-vivid .header-home-logo {
+  position: relative;
+  z-index: 1;
+}
+
 .header-home-logo {
-  height: 64px;
+  height: 54px;
   width: auto;
   max-width: 100%;
 }
 
-.header-home-meta {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-secondary);
+.header-date-pill {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--vivid-blue-tint);
+  color: var(--vivid-blue-dark);
+  border: 1px solid rgba(59, 125, 222, 0.3);
+  padding: 7px 15px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 600;
 }
+
+.header-date-pill svg { width: 15px; height: 15px; flex-shrink: 0; }
 
 .header-brand-logo {
   height: 34px;
@@ -859,40 +892,33 @@ img { max-width: 100%; display: block; }
 }
 
 .tab-bar-inner {
-  position: relative;
-  width: auto;
+  max-width: 520px;
+  width: 100%;
   min-height: var(--tab-bar-height);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 0 28px;
+  align-items: stretch;
   background-color: var(--surface);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card-lg);
-  color: var(--primary);
-  font-size: 12px;
-  font-weight: 700;
-  transition: opacity 0.15s ease;
 }
 
-.tab-bar-inner svg,
-.tab-bar-inner span {
-  position: relative;
-  z-index: 1;
+.tab-item-vivid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 2px;
+  color: var(--text-secondary);
+  font-size: 10.5px;
+  font-weight: 600;
+  transition: color 0.15s ease;
 }
 
-.tab-bar-inner:active { opacity: 0.7; }
+.tab-item-vivid svg { width: 22px; height: 22px; }
 
-.tab-bar-inner svg {
-  width: 22px;
-  height: 22px;
-  filter: drop-shadow(0 1px 3px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
-}
-
-.tab-bar-inner span {
-  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9), 0 0 8px rgba(255, 255, 255, 0.8);
-}
+.tab-item-vivid.active { color: var(--vivid-blue); font-weight: 700; }
 
 /* ==========================================================================
    Inicio — header hero + "hoja" superpuesta con el contenido
@@ -908,22 +934,16 @@ img { max-width: 100%; display: block; }
   animation: fadeSlideUp 0.5s ease-out 0.08s both;
 }
 
-.home-intro { position: relative; margin: 0 0 4px; padding: 0 12px; }
-
-/* Silueta de Lima + Andes (ilustración generada), detrás del logo. Alto por
-   aspect-ratio real de la imagen (no un alto fijo con "cover") para que se
-   vea el horizonte completo, no solo una tira recortada del borde superior. */
-.home-hero-skyline {
-  aspect-ratio: 1024 / 338;
-  margin-bottom: -28px;
-  background-image: url("../assets/skyline-lima-andes.jpg");
-  background-repeat: no-repeat;
-  background-position: bottom center;
-  background-size: 100% auto;
-  mix-blend-mode: multiply;
-  opacity: 0.55;
-  pointer-events: none;
+.home-intro {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 4px;
+  padding: 0 12px;
 }
+
+.home-intro-text { flex: 1; min-width: 0; }
 
 .home-intro-title {
   font-family: var(--font-display);
@@ -937,17 +957,26 @@ img { max-width: 100%; display: block; }
   color: var(--text-secondary);
 }
 
+.home-intro-illustration {
+  flex-shrink: 0;
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+}
+
 .home-ahora-teaser {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   border-radius: var(--card-radius);
-  padding: 14px 16px;
+  padding: 16px;
   margin: 14px 12px 0;
 }
 
 .home-ahora-teaser.is-now {
-  background: var(--primary);
+  background: linear-gradient(120deg, var(--primary) 0%, var(--primary) 55%, var(--vivid-red-dark) 130%);
   color: #fff;
   box-shadow: var(--shadow-card-lg);
 }
@@ -957,11 +986,38 @@ img { max-width: 100%; display: block; }
   border: 1px dashed rgba(91, 97, 101, 0.35);
 }
 
-.home-ahora-teaser-body { min-width: 0; flex: 1; }
+.home-ahora-teaser-icon {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  display: block;
+}
+
+.home-ahora-teaser-body { position: relative; z-index: 1; min-width: 0; flex: 1; }
+
+.home-ahora-teaser-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--vivid-red);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+}
+
+.home-ahora-teaser:not(.is-now) .home-ahora-teaser-badge { background: var(--vivid-blue-tint); color: var(--vivid-blue-dark); }
+
+.home-ahora-teaser-badge .pulse-dot { background: #fff; }
 
 .home-ahora-teaser-title {
-  font-size: 13.5px;
-  font-weight: 600;
+  font-size: 14.5px;
+  font-weight: 700;
   line-height: 1.3;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -971,21 +1027,35 @@ img { max-width: 100%; display: block; }
 .home-ahora-teaser.is-now .home-ahora-teaser-title { color: #fff; }
 
 .home-ahora-teaser-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 11.5px;
   color: var(--text-secondary);
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
-.home-ahora-teaser.is-now .home-ahora-teaser-meta { color: rgba(255, 255, 255, 0.75); }
+.home-ahora-teaser-meta svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+.home-ahora-teaser.is-now .home-ahora-teaser-meta { color: rgba(255, 255, 255, 0.8); }
 
 .home-ahora-teaser-arrow {
+  position: relative;
+  z-index: 1;
   flex-shrink: 0;
-  color: var(--text-secondary);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary);
 }
 
-.home-ahora-teaser.is-now .home-ahora-teaser-arrow { color: rgba(255, 255, 255, 0.75); }
+.home-ahora-teaser:not(.is-now) .home-ahora-teaser-arrow { background: var(--bg); color: var(--text-secondary); }
 
-.home-ahora-teaser-arrow svg { width: 18px; height: 18px; }
+.home-ahora-teaser-arrow svg { width: 16px; height: 16px; }
 
 .home-grid {
   display: grid;
@@ -995,6 +1065,8 @@ img { max-width: 100%; display: block; }
 }
 
 .home-card {
+  position: relative;
+  overflow: hidden;
   grid-column: span 1;
   background: var(--surface);
   border-radius: var(--card-radius);
@@ -1024,58 +1096,89 @@ img { max-width: 100%; display: block; }
   grid-column: span 2;
   flex-direction: row;
   align-items: center;
-  min-height: 100px;
-  background: var(--primary);
-  color: #fff;
-  box-shadow: var(--shadow-card-lg);
+  gap: 14px;
+  min-height: 90px;
+  background: var(--vivid-blue-tint);
+  box-shadow: var(--shadow-card);
   position: relative;
-  overflow: hidden;
 }
 
-.home-card.featured .home-card-icon { background: rgba(255, 255, 255, 0.16); color: #fff; }
-.home-card.featured .home-card-title { color: #fff; }
-.home-card.featured .home-card-desc { color: rgba(255, 255, 255, 0.8); }
+.home-card.featured .home-card-arrow { color: var(--vivid-blue-dark); }
 
+/* Ícono circular ilustrado (recortado del set de íconos) — cada tarjeta
+   tiene su propio tono, ya resuelto en la imagen misma. */
 .home-card-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: var(--bg);
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 46px;
+  height: 46px;
+  display: block;
   flex-shrink: 0;
-  position: relative;
-  z-index: 1;
 }
 
-.home-card-icon svg { width: 22px; height: 22px; }
+/* Salas/Ponentes/Guía/Info: layout en fila — ícono+texto a la izquierda
+   (en su propia columna, .home-card-content) y la ilustración grande a la
+   derecha, como columna propia — no encimada sobre el texto. */
+.home-card--salas,
+.home-card--ponentes,
+.home-card--guia,
+.home-card--info {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 14px;
+}
 
-/* Acentos de color tomados de la paleta de tracks — solo decorativos aquí,
-   no representan ningún track específico, existen para que Inicio no sea
-   monocromo (la única tarjeta que se mantiene azul institucional es Agenda,
-   por ser la destacada). */
-.home-card-icon--track-1 { background: rgba(27, 143, 125, 0.14); color: var(--track-1); }
-.home-card-icon--track-2 { background: rgba(214, 154, 42, 0.16); color: var(--track-2); }
-.home-card-icon--track-3 { background: rgba(107, 143, 66, 0.14); color: var(--track-3); }
-.home-card-icon--track-5 { background: rgba(92, 75, 122, 0.14); color: var(--track-5); }
+.home-card--salas { background: var(--vivid-green-tint); }
+.home-card--salas .home-card-arrow { color: var(--vivid-green); }
+
+.home-card--ponentes { background: var(--vivid-orange-tint); }
+.home-card--ponentes .home-card-arrow { color: var(--vivid-orange); }
+
+.home-card--guia { background: var(--vivid-teal-tint); }
+.home-card--guia .home-card-arrow { color: var(--vivid-teal); }
+
+.home-card--info { background: var(--vivid-purple-tint); }
+.home-card--info .home-card-arrow { color: var(--vivid-purple); }
+
+.home-card-content {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-self: stretch;
+}
+
+.home-card-illustration {
+  flex-shrink: 0;
+  width: 64px;
+  height: auto;
+  max-height: 84px;
+  object-fit: contain;
+}
 
 .home-card-title {
   font-size: 14.5px;
   font-weight: 700;
   color: var(--text-primary);
-  position: relative;
-  z-index: 1;
 }
 
 .home-card-desc {
   font-size: 12px;
   color: var(--text-secondary);
   line-height: 1.35;
-  position: relative;
-  z-index: 1;
 }
+
+.home-card-arrow {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: var(--text-secondary);
+}
+
+.home-card.featured .home-card-arrow { position: relative; right: auto; bottom: auto; margin-left: auto; }
+
+.home-card-arrow svg { width: 18px; height: 18px; }
 
 /* ==========================================================================
    Guía del visitante (Hoteles / Transporte / Emergencias)
