@@ -3,6 +3,16 @@
  * para ayudar al asistente a ubicarse dentro del venue.
  */
 
+const SALA_ICONS = {
+  "aud-principal":
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="10" rx="1.5"/><path d="M9 20h6M12 14v6"/><path d="M4 20c1.5-1 3-1 4 0M20 20c-1.5-1-3-1-4 0"/></svg>',
+  "por-confirmar":
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5"/><circle cx="12" cy="16.5" r="0.5" fill="currentColor"/></svg>',
+};
+
+const CALENDAR_ICON =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>';
+
 async function renderSalas() {
   const mount = document.getElementById("salas-mount");
   const storedDay = Number(localStorage.getItem("riesgird_selected_day"));
@@ -18,18 +28,17 @@ async function renderSalas() {
   mount.innerHTML = salas
     .map((sala) => {
       const activa = sesionesDelDia.find((s) => s.sala_id === sala.id && isSessionNow(s, nowHHMM));
-      const digitos = sala.nombre.match(/\d+/);
-      const codigo = sala.id === "por-confirmar" ? "?" : digitos ? digitos[0] : sala.nombre.slice(0, 3).toUpperCase();
+      const icono = SALA_ICONS[sala.id] || SALA_ICONS["por-confirmar"];
       return `
         <div class="sala-card${activa ? " is-now" : ""}" id="sala-${sala.id}">
-          <div class="sala-icon mono">${codigo}</div>
+          <div class="sala-icon">${icono}</div>
           <div style="flex:1; min-width:0;">
             <div class="sala-name">${sala.nombre}</div>
             <div class="sala-meta">${sala.ubicacion}${sala.capacidad ? ` · Aforo ${sala.capacidad}` : ""}</div>
             ${
               activa
-                ? `<div class="sala-meta" style="font-weight:600; margin-top:4px;"><span class="pulse-dot" style="display:inline-block; margin-right:5px; vertical-align:middle;"></span>Ahora: ${activa.titulo}</div>`
-                : `<div class="sala-meta" style="margin-top:4px;">Sin sesión en curso (Día ${selectedDay})</div>`
+                ? `<div class="sala-status sala-status--now"><span class="pulse-dot"></span>Ahora: ${activa.titulo}</div>`
+                : `<div class="sala-status sala-status--free">${CALENDAR_ICON}Sin sesión en curso (Día ${selectedDay})</div>`
             }
           </div>
         </div>
@@ -47,9 +56,10 @@ function wireCampusMap(salas, sesionesDelDia, nowHHMM) {
     if (!sala) return;
 
     const activa = sesionesDelDia.find((s) => s.sala_id === salaId && isSessionNow(s, nowHHMM));
-    const existingDot = hotspot.querySelector(".pulse-dot");
+    const pin = hotspot.querySelector(".campus-pin");
+    const existingDot = pin.querySelector(".pulse-dot");
     if (activa && !existingDot) {
-      hotspot.insertAdjacentHTML("beforeend", '<span class="pulse-dot"></span>');
+      pin.insertAdjacentHTML("beforeend", '<span class="pulse-dot"></span>');
     } else if (!activa && existingDot) {
       existingDot.remove();
     }

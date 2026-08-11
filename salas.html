@@ -33,8 +33,23 @@
 
       <div class="campus-map" id="campus-map">
         <img src="assets/mapa-campus.png" alt="Plano del campus — Convention & Sport Center y Edificio A" />
-        <button class="campus-hotspot campus-hotspot--convention" data-sala="aud-principal" aria-label="Ver Convention & Sport Center"></button>
-        <button class="campus-hotspot campus-hotspot--edificio-a" data-sala="por-confirmar" aria-label="Ver Edificio A"></button>
+
+        <div class="campus-legend">
+          <div class="campus-legend-item"><span class="campus-legend-pin campus-legend-pin--convention"></span> Convention &amp; Sport Center</div>
+          <div class="campus-legend-item"><span class="campus-legend-pin campus-legend-pin--edificio-a"></span> Edificio A</div>
+        </div>
+
+        <span class="campus-compass" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><path d="M12 7l2.5 5-2.5 5-2.5-5z" fill="currentColor" stroke="none"/></svg>
+          N
+        </span>
+
+        <button class="campus-hotspot campus-hotspot--convention" data-sala="aud-principal" aria-label="Ver Convention & Sport Center">
+          <span class="campus-pin campus-pin--convention"></span>
+        </button>
+        <button class="campus-hotspot campus-hotspot--edificio-a" data-sala="por-confirmar" aria-label="Ver Edificio A">
+          <span class="campus-pin campus-pin--edificio-a"></span>
+        </button>
       </div>
 
       <div id="salas-mount"></div>
