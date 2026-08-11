@@ -938,9 +938,9 @@ img { max-width: 100%; display: block; }
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 0 0 4px;
-  padding: 0 12px;
+  gap: 14px;
+  margin: 0 0 10px;
+  padding: 0 14px;
 }
 
 .home-intro-text { flex: 1; min-width: 0; }
@@ -949,18 +949,19 @@ img { max-width: 100%; display: block; }
   font-family: var(--font-display);
   font-size: 20px;
   color: var(--primary);
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .home-intro-sub {
   font-size: 13px;
   color: var(--text-secondary);
+  line-height: 1.4;
 }
 
 .home-intro-illustration {
   flex-shrink: 0;
-  width: 92px;
-  height: 92px;
+  width: 108px;
+  height: 108px;
   object-fit: contain;
 }
 
@@ -969,10 +970,10 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   border-radius: var(--card-radius);
-  padding: 16px;
-  margin: 14px 12px 0;
+  padding: 18px;
+  margin: 16px 12px 0;
 }
 
 .home-ahora-teaser.is-now {
@@ -1060,8 +1061,8 @@ img { max-width: 100%; display: block; }
 .home-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 16px 12px 12px;
+  gap: 14px;
+  margin: 18px 12px 16px;
 }
 
 .home-card {
@@ -1071,10 +1072,10 @@ img { max-width: 100%; display: block; }
   background: var(--surface);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card);
-  padding: 18px 14px;
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   min-height: 128px;
   animation: fadeSlideUp 0.45s ease-out both;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -1096,8 +1097,8 @@ img { max-width: 100%; display: block; }
   grid-column: span 2;
   flex-direction: row;
   align-items: center;
-  gap: 14px;
-  min-height: 90px;
+  gap: 16px;
+  min-height: 96px;
   background: var(--vivid-blue-tint);
   box-shadow: var(--shadow-card);
   position: relative;
@@ -1122,9 +1123,10 @@ img { max-width: 100%; display: block; }
 .home-card--guia,
 .home-card--info {
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   gap: 6px;
-  padding: 14px;
+  padding: 14px 0 14px 12px;
+  min-height: 152px;
 }
 
 .home-card--salas { background: var(--vivid-green-tint); }
@@ -1145,15 +1147,14 @@ img { max-width: 100%; display: block; }
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   align-self: stretch;
 }
 
 .home-card-illustration {
   flex-shrink: 0;
-  width: 64px;
-  height: auto;
-  max-height: 84px;
+  width: 68px;
+  height: 68px;
   object-fit: contain;
 }
 
@@ -1161,12 +1162,14 @@ img { max-width: 100%; display: block; }
   font-size: 14.5px;
   font-weight: 700;
   color: var(--text-primary);
+  overflow-wrap: break-word;
 }
 
 .home-card-desc {
   font-size: 12px;
   color: var(--text-secondary);
-  line-height: 1.35;
+  line-height: 1.4;
+  overflow-wrap: break-word;
 }
 
 .home-card-arrow {
